@@ -14,10 +14,54 @@ var {
 var RecipesFilter = require('./RecipesFilter');
 var MenuLateral = require('./MenuLateral');
 
+
+var FavoriteActions = require('./../actions/FavoriteActions');
+var FavoriteStore = require('./../stores/FavoriteStore');
+var ResourceKeys = require('../services/Constants');
+
+class RecipeButtons extends React.Component {
+  constructor(props) {
+    super(props);
+    this.changeListener = null;
+    this.state = {
+      isFavorite: false
+    }
+  }
+  componentWillUnmount() {
+    FavoriteStore.removeChangeListener(this.changeListener);
+  }
+
+  componentDidMount() {
+    this.changeListener = this.reloadFavorite.bind(this);
+    FavoriteStore.addChangeListener(this.changeListener);
+
+  }
+
+  reloadFavorite() {
+    var isFavorite = FavoriteStore.getById(this.props.recipeId);
+    this.setState({ isFavorite: isFavorite });
+  }
+
+  addFavorite() {
+    if(!this.state.isFavorite) {
+      FavoriteActions.addFavorite(this.props.recipeId);
+    } else {
+      FavoriteActions.removeFavorite(this.props.recipeId);
+    }
+  }
+  render() {
+    var icon = this.state.isFavorite ? require('image!ico_menu_heart') : require('image!ico_heart');
+    return (
+      <TouchableHighlight onPress={this.addFavorite.bind(this)}>
+        <Image source={ icon }></Image>
+      </TouchableHighlight>
+    );
+  }
+}
+
 var NavigationBarRouteMapper = {
 
   LeftButton: function (route, navigator, index, navState) {
-  	console.log()
   	//Home Page
     if (index === 0) {
     	return (
@@ -46,6 +90,23 @@ var NavigationBarRouteMapper = {
   },
 
   RightButton: function (route, navigator, index, navState) {
+
+    //console.log('route: ', route, navState);
+    if (route.data) {
+      switch(route.data.Key) {
+        case 'RecipeID':
+          return <RecipeButtons recipeId={route.data.Value} />;
+        break;
+        case 'ProductID':
+        case 'RecipeTypeKey':
+        default:
+          // RecipesFilter
+        break;
+      }
+    }
+    
+
+
     //Home Page
     if (index === 0) {
     	return (

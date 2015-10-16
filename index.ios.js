@@ -24,11 +24,11 @@ class Ricette extends Component {
 
     return (
       <Navigator 
-        initialRoute= {{title: 'ROVAGNATI - Ricette Firmate', component: RecipesList}}
+        initialRoute= {{title: 'ROVAGNATI - Ricette Firmate', component: RecipesList }}
         renderScene= {(route, navigator) => {
             // console.log("renderScene", route, navigator); 
             if (route.component) {
-                return React.createElement(route.component, { navigator, route });
+                return React.createElement(route.component, { route, navigator });
             }
           }
         }

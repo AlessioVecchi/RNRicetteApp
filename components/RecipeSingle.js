@@ -20,6 +20,7 @@ var { find } = require('lodash');
 class RecipeSingle extends Component {
   constructor(props) {
     super(props);
+    this.changeListener = null;
     this.state = {
       recipe: {},
       dataSource: new ListView.DataSource({
@@ -46,18 +47,15 @@ class RecipeSingle extends Component {
   }
   
   fetchData(resourceKey) {
-
     getData(resourceKey).then((responseData)=> {
-     
-      var filter = this.props.route.data;
+      var filter = this.props.route.data.Value;
       var recipeData = find(responseData, (item) => {
         return item.ID == filter;
       });
-      
       this.setState({
         recipe: recipeData,
         dataSource: this.state.dataSource.cloneWithRows(recipeData.Steps),
-        loaded: true
+        loaded: true,
       });
     });
   }
@@ -73,13 +71,12 @@ class RecipeSingle extends Component {
     });
     this.setState({
       tabs: tabArray,
-    })
+    });
   }
 
   renderStep(step) {
     var image;
     if(step.ImageUrl) {
-      console.log("ImageUrl",step.ImageUrl);
       image = <Image source={{uri: step.ImageUrl}} style={styles.stepImage} />;
     }
     return (
@@ -136,6 +133,7 @@ class RecipeSingle extends Component {
           <View style={styles.recipe}>
             <Image source={{uri: this.state.recipe.ImageUrl}}
               style={styles.imgFull} />
+           
             <Text style={styles.title}>{this.state.recipe.Title}</Text>
             <TabNavigation tabs={this.state.tabs} selectTab={this.selectTab.bind(this)} />
             <View>
@@ -149,7 +147,10 @@ class RecipeSingle extends Component {
   // <ListView
   //               dataSource={this.state.dataSource}
   //               renderRow={this.renderStep.bind(this)}
-  //               style={styles.listView} />
+  //               style={styles.listView} /> 
+  // <TouchableHighlight style={this.state.isFavorite && {backgroundColor:colors.red}} onPress={this.addFavorite.bind(this)}>
+  //             <Image source={require('image!ico_heart')}></Image>
+  //           </TouchableHighlight>
 };
 var colors = {
   red: '#930c10',

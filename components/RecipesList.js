@@ -70,7 +70,10 @@ class RecipesList extends Component {
   goToRecipe(recipeId) {
     // console.log(this);
     this.props.navigator.push({
-      data: recipeId,
+      data: {
+        Key: 'RecipeID',
+        Value: recipeId,
+      },
       component: RecipeSingle,
     });
   }
