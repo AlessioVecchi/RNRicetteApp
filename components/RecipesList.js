@@ -15,36 +15,72 @@ var {
 var ResourceKeys = require('../constants/ResourceKeys');
 var { getData } = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
-var { filter } = require('lodash');
+var FavoriteStore = require('./../stores/FavoriteStore');
+var { filter, find } = require('lodash');
 
 class RecipesList extends Component {
   constructor(props) {
     super(props);
+    //this.changeListener = null;
     this.state = {
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
     }
+  } 
+
+  componentWillUnmount() {
+    //FavoriteStore.removeChangeListener(this.changeListener);
   }
   
   componentDidMount() {
-    
+    console.log('componentDidMount');
+
+    //this.changeListener = this.reloadFavorite.bind(this);
+    //FavoriteStore.addChangeListener(this.changeListener);
+
     getData(ResourceKeys.recipes).then((responseData)=> {
-     //console.log(responseData);
       if(this.props.route.data) {
-        var dataFilter = this.props.route.data;
-        responseData = filter(responseData, (item) => {
-          return item[dataFilter.Key] == dataFilter.Value;
-        })
+        console.log(this.props.route.data.Key);
+        switch(this.props.route.data.Key) {
+          case 'Favorites':
+           this.reloadFavorite(responseData);
+          break;
+          default:
+            var dataFilter = this.props.route.data;
+            responseData = filter(responseData, (item) => {
+              return item[dataFilter.Key] == dataFilter.Value;
+            });
+            this.setState({
+              dataSource: this.state.dataSource.cloneWithRows(responseData),
+              loaded: true,
+            });
+            break;
+        }
+      } else {
+        this.setState({
+          dataSource: this.state.dataSource.cloneWithRows(responseData),
+          loaded: true,
+        });
       }
+    });
+  }
+
+  reloadFavorite(responseData) {
+    console.log('reloadFavorite');
+    FavoriteStore.getAll().then((favorites) => {
+      var favoritesRecipes = [];
+      favorites.forEach((item, index) => {    
+        favoritesRecipes.push(find(responseData, { ID: item.id }));
+      });
       this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(responseData),
+        dataSource: this.state.dataSource.cloneWithRows(favoritesRecipes),
         loaded: true,
       });
     });
-
   }
+
 
   render() {
     if (!this.state.loaded) {

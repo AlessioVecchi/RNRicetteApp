@@ -69,7 +69,7 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Preferiti', component: '', data: {} })}>
+        onPress={()=> this.props.navigator.push({ title: 'Preferiti', component: RecipesList, data: {Key: 'Favorites', Value: 'Favorites'} })}>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
