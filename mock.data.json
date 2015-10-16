@@ -1,0 +1,96 @@
+{
+  "recipesData": [
+    {
+      "id": "1",
+      "Title": "Involtini di pasta fillo con Tacchino Arrosto Snello e ricotta",
+      "preparation": "Innanzitutto, sminuzziamo le fette di Tacchino Arrosto Snello, scegliamo una ciotola e uniamole alla ricotta. Amalgamiamo gli ingredienti, aggiungendo il pepe e aggiustando di sale. Ora pieghiamo il foglio di pasta fillo su se stesso e ritagliamolo in modo da ottenere un rettangolo di 15 x 25 cm. circa.\n\nAiutandoci con un cucchiaio posiamo l'impasto sul lato corto del foglio di pasta, a circa 2 cm dal bordo. Pieghiamo i lati lunghi verso l’interno e iniziamo ad arrotolare l’involtino. Inforniamo per 15 minuti a 160° con la funzione statica, e poi per 10 minuti con la funzione ventilata, alzando la temperatura fino a 170°. Valutiamo il grado di doratura gradita anche in base al proprio forno.\n\nServiamo gli involtini con il radicchio novello, le julienne di barbabietola e qualche mandorla grossolanamente tagliata con il coltello. Condiamo la verdura con una vinaigrette preparata con olio, glassa di aceto balsamico e sale.\n\nPer rendere il piatto più etnico è possibile accompagnare gli involtini con una salsa a base di yogurt. In questo caso è sufficiente unire a un vasetto di yogurt magro delle spezie a piacimento, come per esempio curcuma, zenzero in polvere, curry, un filo d’olio extra vergine di oliva e un pizzico di sale.\n\nPer chi ama la cucina etnica \"rivisitata\" e sempre gustosa, un piatto leggero e velocissimo dal sapore \"esotico\", adatto per buffet, antipasti e come finger food.&nbsp;\n\n",
+      "ingridients": "8 fogli di pasta fillo\n1 confezione di Tacchino Arrosto Snello Rovagnati\n250 g di ricotta\n50 g di radicchio novello\n50 g di barbabietole a julienne\n20 g di mandorle\nolio extra vergine di oliva\nun cucchiaio di glassa di aceto balsamico\nsale\npepe nero",
+      "tag": ["51", "52", "111"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150722/154418532_5755.jpg"
+    },
+    {
+      "id": "2",
+      "Title": "Gnocchetti di patate quarantine con \"pioggia\" di Prosciutto Crudo",
+      "tag": ["51", "52", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    },
+    {
+      "id": "3",
+      "Title": "Risotto con Prosciutto Crudo Snello, salsa di rucola e germogli",
+      "tag": ["53", "113", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150721/170429263_4124.jpg"
+    },
+    {
+      "id": "4",
+      "Title": "Sushi di Bresaola e melanzana rossa con wasabi al basilico",
+      "tag": ["51", "52", "111"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150720/174526562_6411.jpg"
+    },
+    {
+      "id": "5",
+      "Title": "recipe 5",
+      "tag": ["51", "52", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    },
+    {
+      "id": "6",
+      "Title": "recipe 6",
+      "tag": ["53", "113", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    },
+    {
+      "id": "7",
+      "Title": "recipe 7",
+      "tag": ["51", "52", "111"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    },
+    {
+      "id": "8",
+      "Title": "recipe 8",
+      "tag": ["51", "52", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    },
+    {
+      "id": "9",
+      "Title": "recipe 9",
+      "tag": ["53", "113", "112"],
+      "ImageUrl": "http://mondosnello.staging.extra.it/upl/cms/images/20150727/123159095_9729.jpg"
+    }
+  ],
+  "products": [
+    {
+      "id": "0",
+      "Title": "Tutti i prodotti"
+    },
+    {
+      "id": "51",
+      "Title": "Proscitto cotto"
+    },
+    {
+      "id": "52",
+      "Title": "Salame"
+    },
+    {
+      "id": "53",
+      "Title": "Bresaola"
+    }
+  ],
+  "sides": [
+    {
+      "id": "0",
+      "Title": "Tutti i piatti"
+    },
+    {
+      "id": "111",
+      "Title": "Primo Piatto"
+    },
+    {
+      "id": "112",
+      "Title": "Secondo Piatto"
+    },
+    {
+      "id": "113",
+      "Title": "Dessert"
+    }
+  ]
+}
