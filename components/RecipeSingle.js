@@ -12,7 +12,7 @@ var {
   ListView
 } = React;
 
-var ResourceKeys = require('../services/Constants');
+var ResourceKeys = require('../constants/ResourceKeys');
 var { getData } = require('../services/DataService');
 var TabNavigation = require('./TabNavigation');
 var { find } = require('lodash');

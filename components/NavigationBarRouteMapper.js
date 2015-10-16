@@ -17,7 +17,7 @@ var MenuLateral = require('./MenuLateral');
 
 var FavoriteActions = require('./../actions/FavoriteActions');
 var FavoriteStore = require('./../stores/FavoriteStore');
-var ResourceKeys = require('../services/Constants');
+var ResourceKeys = require('../constants/ResourceKeys');
 
 class RecipeButtons extends React.Component {
   constructor(props) {
@@ -34,12 +34,13 @@ class RecipeButtons extends React.Component {
   componentDidMount() {
     this.changeListener = this.reloadFavorite.bind(this);
     FavoriteStore.addChangeListener(this.changeListener);
-
+    this.reloadFavorite();
   }
 
   reloadFavorite() {
-    var isFavorite = FavoriteStore.getById(this.props.recipeId);
-    this.setState({ isFavorite: isFavorite });
+    FavoriteStore.getById(this.props.recipeId).then((isFavorite)=> {
+      this.setState({ isFavorite: isFavorite });
+    });
   }
 
   addFavorite() {

@@ -12,7 +12,7 @@ var {
   Component,
 } = React;
 
-var ResourceKeys = require('../services/Constants');
+var ResourceKeys = require('../constants/ResourceKeys');
 var { getData } = require('../services/DataService');
 var RecipesList = require('./RecipesList');
 var TabNavigation = require('./TabNavigation');
