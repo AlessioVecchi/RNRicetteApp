@@ -13,52 +13,7 @@ var {
 
 var RecipesFilter = require('./RecipesFilter');
 var MenuLateral = require('./MenuLateral');
-
-
-var FavoriteActions = require('./../actions/FavoriteActions');
-var FavoriteStore = require('./../stores/FavoriteStore');
-var ResourceKeys = require('../constants/ResourceKeys');
-
-class RecipeButtons extends React.Component {
-  constructor(props) {
-    super(props);
-    this.changeListener = null;
-    this.state = {
-      isFavorite: false
-    }
-  }
-  componentWillUnmount() {
-    FavoriteStore.removeChangeListener(this.changeListener);
-  }
-
-  componentDidMount() {
-    this.changeListener = this.reloadFavorite.bind(this);
-    FavoriteStore.addChangeListener(this.changeListener);
-    this.reloadFavorite();
-  }
-
-  reloadFavorite() {
-    FavoriteStore.getById(this.props.recipeId).then((isFavorite)=> {
-      this.setState({ isFavorite: isFavorite });
-    });
-  }
-
-  addFavorite() {
-    if(!this.state.isFavorite) {
-      FavoriteActions.addFavorite(this.props.recipeId);
-    } else {
-      FavoriteActions.removeFavorite(this.props.recipeId);
-    }
-  }
-  render() {
-    var icon = this.state.isFavorite ? require('image!ico_menu_heart') : require('image!ico_heart');
-    return (
-      <TouchableHighlight onPress={this.addFavorite.bind(this)}>
-        <Image source={ icon }></Image>
-      </TouchableHighlight>
-    );
-  }
-}
+var RecipeButtons = require('./RecipeButtons');
 
 var NavigationBarRouteMapper = {
 
@@ -105,8 +60,6 @@ var NavigationBarRouteMapper = {
         break;
       }
     }
-    
-
 
     //Home Page
     if (index === 0) {
@@ -157,6 +110,7 @@ var styles = StyleSheet.create({
     width: 30,
     height: 30,
     margin: 5,
+    resizeMode: 'contain',
   },
   iconMenu: {
     marginLeft: 0,

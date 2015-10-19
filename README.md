@@ -1,2 +1,0 @@
-# RNRicetteApp
-ReactNative Ricette App

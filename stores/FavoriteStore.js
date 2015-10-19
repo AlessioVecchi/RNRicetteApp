@@ -1,14 +1,12 @@
 "use strict";
 
 var Dispatcher = require('../dispatcher/AppDispatcher');
-var ActionTypes = require('../constants/ActionTypes')
+var ActionTypes = require('../constants/ActionTypes');
 var EventEmitter = require('events').EventEmitter;
 var AsyncStorage = require('react-native').AsyncStorage;
 var _ = require('lodash');
 var CHANGE_EVENT = 'change';
 var FAVORITES_KEY =  'favorites';
-
-var _favorites = [];
 
 var FavoriteStore = Object.assign({}, EventEmitter.prototype, {
 	addChangeListener : function(callback) {		
@@ -71,13 +69,9 @@ Dispatcher.register(function(action) {
 						FavoriteStore.emitChange();
 					});
 				}
-		break;
-	}
-
-
+			break;
+		}
 	});
-
-
 });
 
 module.exports = FavoriteStore;

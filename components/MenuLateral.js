@@ -12,6 +12,7 @@ var {
 } = React;
 
 var RecipesList = require('./RecipesList');
+var FavoritesList = require('./FavoritesList');
 
 class MenuLateral extends Component {
   constructor(props) {
@@ -69,7 +70,7 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Preferiti', component: RecipesList, data: {Key: 'Favorites', Value: 'Favorites'} })}>
+        onPress={()=> this.props.navigator.push({ title: 'Preferiti', component: FavoritesList, data: {Key: 'Favorites', Value: 'Favorites'} })}>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
@@ -103,7 +104,11 @@ var colors = {
 }
 var styles = StyleSheet.create({
   container: {
-    flex: 1,
+    position: 'absolute',
+    top: 0,
+    left: 0,
+    right: 0,
+    bottom: 0,
     backgroundColor: colors.red,
     justifyContent: 'center',
   },
@@ -111,7 +116,7 @@ var styles = StyleSheet.create({
     position: 'absolute',
     left: 0,
     right: 0,
-    top: 60,
+    top: 70,
     alignItems: 'center',
   },
   menuItem: {

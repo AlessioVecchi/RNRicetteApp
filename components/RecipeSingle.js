@@ -223,6 +223,7 @@ var styles = StyleSheet.create({
   },
   ingredient: {
     padding:20,
+    paddingBottom: 0,
   },
   ingredientQty: {
     color: colors.red,
