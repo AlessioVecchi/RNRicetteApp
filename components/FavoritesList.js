@@ -8,7 +8,7 @@ var {
 var ResourceKeys = require('../constants/ResourceKeys');
 var { getData } = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
-var List = require('./List');
+var BaseList = require('./BaseList');
 var FavoriteStore = require('./../stores/FavoriteStore');
 var { filter, find } = require('lodash');
 
@@ -49,7 +49,7 @@ class FavoritesList extends Component {
   render() {
    
     return (
-      <List
+      <BaseList
         recipesSource={this.state.dataSource}
         navigator={this.props.navigator} />
     );

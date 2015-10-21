@@ -14,7 +14,7 @@ var {
 var RecipeSingle = require('./RecipeSingle');
 var { filter, find } = require('lodash');
 
-class List extends Component {
+class BaseList extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -59,6 +59,7 @@ class List extends Component {
         Key: 'RecipeID',
         Value: recipeId,
       },
+      section: 'recipe-single',
       component: RecipeSingle,
     });
   }
@@ -95,6 +96,7 @@ var styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
     paddingBottom: 40,
+    backgroundColor: '#F5FCFF',
   },
   year: {
     textAlign: 'center',
@@ -135,4 +137,4 @@ var styles = StyleSheet.create({
   },
 });
 
-module.exports = List;
+module.exports = BaseList;

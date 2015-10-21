@@ -1,3 +1,5 @@
+'use strict';
+
 var ResourceKeys = {
   recipes: 'recipes',
   products: 'products',

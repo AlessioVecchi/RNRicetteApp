@@ -8,7 +8,7 @@ var {
 var ResourceKeys = require('../constants/ResourceKeys');
 var { getData } = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
-var List = require('./List');
+var BaseList = require('./BaseList');
 var { filter, find } = require('lodash');
 
 class RecipesList extends Component {
@@ -23,7 +23,7 @@ class RecipesList extends Component {
     getData(ResourceKeys.recipes).then((responseData) => {
       var recipeData = responseData;
       if(this.props.route.data) {
-        console.log(this.props.route.data.Key);
+        //console.log(this.props.route.data.Key);
         var dataFilter = this.props.route.data;
         recipeData = filter(responseData, (item) => {
           return item[dataFilter.Key] == dataFilter.Value;
@@ -39,7 +39,7 @@ class RecipesList extends Component {
 
   render() {
     return (
-      <List
+      <BaseList
         recipesSource={this.state.dataSource}
         navigator={this.props.navigator} />
     );

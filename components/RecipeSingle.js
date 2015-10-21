@@ -1,3 +1,5 @@
+'use strict';
+
 var React = require('react-native');
 var {
   StyleSheet,
@@ -20,7 +22,6 @@ var { find } = require('lodash');
 class RecipeSingle extends Component {
   constructor(props) {
     super(props);
-    this.changeListener = null;
     this.state = {
       recipe: {},
       dataSource: new ListView.DataSource({

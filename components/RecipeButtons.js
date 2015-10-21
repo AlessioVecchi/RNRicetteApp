@@ -1,4 +1,3 @@
-
 'use strict';
 
 var React = require('react-native');
@@ -46,7 +45,7 @@ class RecipeButtons extends React.Component {
   render() {
     var icon = this.state.isFavorite ? require('image!ico_menu_heart') : require('image!ico_heart');
     return (
-      <View style={styles.container}>
+      <View style={ [styles.container, styles.rightButton]}>
         <TouchableHighlight 
           underlayColor="transparent">
           <Image source={ require('image!ico_basket') } style={styles.icon}></Image>
@@ -74,6 +73,11 @@ var styles = StyleSheet.create({
     height: 30,
     margin: 5,
     resizeMode: 'contain',
+  },
+  rightButton: {
+    position: 'absolute',
+    top: 13,
+    right: 0,
   },
 });
 

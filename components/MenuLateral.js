@@ -1,4 +1,7 @@
+'use strict';
+
 var React = require('react-native');
+
 var {
   StyleSheet,
   Text,
@@ -44,7 +47,11 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Ricette Snello', component: RecipesList, data: {Key: 'ProductType', Value: 'mondosnello',} })}>
+        onPress={()=> {
+            this.props.toggleMenu();
+            this.props.navigator.push({ title: 'Ricette Snello', component: RecipesList, data: {Key: 'ProductType', Value: 'mondosnello',} });
+          }
+        }> 
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
@@ -57,7 +64,11 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Ricette Rovagnati', component: RecipesList, data: {Key: 'ProductType', Value: 'rovagnati',} })}>
+        onPress={()=> {
+            this.props.toggleMenu();
+            this.props.navigator.push({ title: 'Ricette Rovagnati', component: RecipesList, data: {Key: 'ProductType', Value: 'rovagnati',} });
+          }
+        }>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
@@ -70,7 +81,11 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Preferiti', component: FavoritesList, data: {Key: 'Favorites', Value: 'Favorites'} })}>
+        onPress={()=> {
+            this.props.toggleMenu();
+            this.props.navigator.push({ title: 'Preferiti', component: FavoritesList, data: {Key: 'Favorites', Value: 'Favorites'}});
+          }
+        }>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
@@ -83,7 +98,11 @@ class MenuLateral extends Component {
         </TouchableHighlight>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.push({ title: 'Lista della spesa', component: '', data: {} })}>
+        onPress={()=> {
+            this.props.toggleMenu();
+            this.props.navigator.push({ title: 'Lista della spesa', component: BasketList, data: {Key: 'Basket', Value: 'Basket'}});
+          }
+        }>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image

@@ -29,14 +29,14 @@ class DataService {
 		}
 
 		if (cachebleObj === null) { 
-			console.log('retrieve from server: ' + requestUrl);
+			//console.log('retrieve from server: ' + requestUrl);
 			var response = null;
 			try {
 				response = await fetch(requestUrl);
 				var body = await response.json();
   				var cachebleObj = new CachebleObject(body);
 			} catch (err) { 
-				console.log("error in calling server: ",err);
+				//console.log("error in calling server: ",err);
 				//error in call server -> restore the original value
 				if(value !== null) {
 					cachebleObj = JSON.parse(value);
@@ -44,7 +44,7 @@ class DataService {
 			}
   			await AsyncStorage.setItem(resourceKey, JSON.stringify(cachebleObj));
 		} else {
-			console.log('retrieve from disk');
+			//console.log('retrieve from disk');
 		}
 		return cachebleObj.data; 
 	}
