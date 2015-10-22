@@ -17,7 +17,7 @@ var RecipesList = require('./components/RecipesList');
 var FavoritesList = require('./components/FavoritesList');
 var RecipeNavigationBar = require('./components/RecipeNavigationBar');
 var NavigationBarRouteMapper = require('./components/NavigationBarRouteMapper');
-var MenuLateral = require('./components/MenuLateral');
+var SideMenu = require('./components/SideMenu');
 
 class Ricette extends Component {
   constructor(props) {
@@ -41,13 +41,13 @@ class Ricette extends Component {
           this.state.translateValue,                 
           {
             toValue: 250,                        
-            duration: 700
+            duration: 275
           }),
         Animated.timing(                          
           this.state.scaleValue,                 
           {
             toValue: 0.85,                        
-            duration: 700
+            duration: 275
           })
         ]).start();  
     } else {
@@ -56,13 +56,13 @@ class Ricette extends Component {
           this.state.translateValue,                 
           {
             toValue: 0,                        
-            duration: 700
+            duration: 275
           }),
         Animated.timing(                          
           this.state.scaleValue,                 
           {
             toValue: 1,                        
-            duration: 700
+            duration: 275
           })
         ]).start();  
     }
@@ -74,7 +74,7 @@ class Ricette extends Component {
     //console.log('navigate',navigator, section);
     //console.log(navigator, section);
     this.toggleMenu();
-    navigator.push({ title: 'Lista della spesa', component: FavoritesList, data: {} })
+    navigator.push({ title: 'Lista della spesa', component: FavoritesList, data: {} });
   }
 
   render() {
@@ -85,7 +85,7 @@ class Ricette extends Component {
           if (route.component) {
             return (
               <View style={styles.container}>
-                <MenuLateral navigator={navigator} toggleMenu={this.toggleMenu.bind(this)} />
+                <SideMenu navigator={navigator} toggleMenu={this.toggleMenu.bind(this)} />
                 <Animated.View style={[
                     styles.container, 
                     { transform: [{translateX: this.state.translateValue}, {scale: this.state.scaleValue}]}
@@ -103,33 +103,12 @@ class Ricette extends Component {
         }} />
     );
   }
-
-  // render() {
-  //   return (
-  //     <Navigator 
-  //       initialRoute= {{title: 'ROVAGNATI - Ricette Firmate', component: RecipesList}}
-  //       renderScene= {(route, navigator) => {
-  //           // console.log("renderScene", route, navigator); 
-  //           if (route.component) {
-  //               return React.createElement(route.component, { navigator, route });
-  //           }
-  //         }
-  //       }
-  //       navigationBar={
-  //         <Navigator.NavigationBar
-  //             routeMapper={NavigationBarRouteMapper}
-  //             style={styles.navBar}
-  //           />
-  //       }
-  //     />
-  //   );
-  // }
-
 }
 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#fff'
   },
   navBar: {
     backgroundColor: '#c8201f',
@@ -140,9 +119,6 @@ var styles = StyleSheet.create({
     padding: 10,
     fontSize: 25,
   },
-  // toggled: {
-  //   transform: [{translateX: 280}],
-  // }
 });
 
 AppRegistry.registerComponent('Ricette', () => Ricette);

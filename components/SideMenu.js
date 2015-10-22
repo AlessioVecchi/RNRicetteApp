@@ -16,8 +16,9 @@ var {
 
 var RecipesList = require('./RecipesList');
 var FavoritesList = require('./FavoritesList');
+var BasketList = require('./BasketList');
 
-class MenuLateral extends Component {
+class SideMenu extends Component {
   constructor(props) {
     super(props);
   }
@@ -34,7 +35,10 @@ class MenuLateral extends Component {
         </View>
         <TouchableHighlight 
         underlayColor={colors.red}
-        onPress={()=> this.props.navigator.popToTop()}>
+        onPress={()=> {
+          this.props.toggleMenu();
+          this.props.navigator.popToTop()}
+        }>
           <View style={styles.menuItem}>
             <View style={styles.imgWrap}>
               <Image
@@ -133,25 +137,29 @@ var styles = StyleSheet.create({
   },
   logo: {
     position: 'absolute',
-    left: 0,
-    right: 0,
-    top: 70,
+    left: 20,
+    right: 100,
+    top: 30,
     alignItems: 'center',
   },
   menuItem: {
     flex: 1,
     flexDirection: 'row',
+    marginBottom: 10,
   },
   logoImg: {
     height: 47,
     width: 155,
   },
   imgWrap: {
-    width: 30,
-    marginRight: 15,
+    width: 40,
+    height: 40,
+    justifyContent: 'center',
+    alignItems: 'center',
   },
   icon: {
-    flex: 1,
+    width: 30,
+    height: 30,
     resizeMode: 'contain',
   },
   title: {
@@ -161,8 +169,8 @@ var styles = StyleSheet.create({
   },
   buttonText: {
     color: '#fff',
-    padding: 10,
     fontSize: 25,
+    lineHeight: 40,
   },
 });
-module.exports = MenuLateral;
+module.exports = SideMenu;

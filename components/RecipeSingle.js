@@ -15,13 +15,30 @@ var {
 } = React;
 
 var ResourceKeys = require('../constants/ResourceKeys');
-var { getData } = require('../services/DataService');
+var DataService = require('../services/DataService');
 var TabNavigation = require('./TabNavigation');
 var { find } = require('lodash');
 
+// var SetIntervalMixin = {
+//   componentWillMount: function() {
+//     console.log('SetIntervalMixin.componentWillMount');
+//     this.intervals = [];
+//   },
+//   setInterval: function() {
+//     this.intervals.push(setInterval.apply(null, arguments));
+//   },
+//   componentWillUnmount: function() {
+//     console.log('SetIntervalMixin.componentWillUnmount');
+//     this.intervals.forEach(clearInterval);
+//   }
+// };
+//mixins: [SetIntervalMixin], // Use the mixin
+
 class RecipeSingle extends Component {
+  
   constructor(props) {
     super(props);
+    this.changeListener = null;
     this.state = {
       recipe: {},
       dataSource: new ListView.DataSource({
@@ -46,9 +63,9 @@ class RecipeSingle extends Component {
   componentDidMount() {
     this.fetchData(ResourceKeys.recipes);
   }
-  
+
   fetchData(resourceKey) {
-    getData(resourceKey).then((responseData)=> {
+    DataService.getData(resourceKey).then((responseData)=> {
       var filter = this.props.route.data.Value;
       var recipeData = find(responseData, (item) => {
         return item.ID == filter;
@@ -94,11 +111,10 @@ class RecipeSingle extends Component {
   }
 
  renderIngredient(ingredient) {
-   
     return (
        <View key={ingredient.Index+1} style={styles.ingredient}>
-            <Text style={styles.ingredientElement}>
-              <Text style={styles.ingredientQty}>{ingredient.Quantity}</Text> {ingredient.Element}</Text>  
+          <Text style={styles.ingredientElement}>
+          <Text style={styles.ingredientQty}>{ingredient.Quantity}</Text> {ingredient.Element}</Text>  
         </View>
     );
   }
@@ -127,31 +143,28 @@ class RecipeSingle extends Component {
         return this.renderStep(step);
       });
     }
-    
+    var iconBrand = '';
+    if(this.state.recipe.ProductType === 'mondosnello') {
+      iconBrand = require('image!snello_ico');
+    } else {
+      iconBrand = require('image!rovagnati_ico');
+    }
 
     return (
-        <ScrollView>
-          <View style={styles.recipe}>
-            <Image source={{uri: this.state.recipe.ImageUrl}}
-              style={styles.imgFull} />
-           
-            <Text style={styles.title}>{this.state.recipe.Title}</Text>
-            <TabNavigation tabs={this.state.tabs} selectTab={this.selectTab.bind(this)} />
-            <View>
-              {content}
-            </View>
+      <ScrollView>
+        <View style={styles.recipe}>
+          <Image source={{uri: this.state.recipe.ImageUrl}}
+            style={styles.imgFull} />
+          <Image source={iconBrand} style={styles.iconBrand} />
+          <Text style={styles.title}>{this.state.recipe.Title}</Text>
+          <TabNavigation tabs={this.state.tabs} selectTab={this.selectTab.bind(this)} />
+          <View>
+            {content}
           </View>
-        </ScrollView>
+        </View>
+      </ScrollView>
     );    
   }
-  //Brutto;
-  // <ListView
-  //               dataSource={this.state.dataSource}
-  //               renderRow={this.renderStep.bind(this)}
-  //               style={styles.listView} /> 
-  // <TouchableHighlight style={this.state.isFavorite && {backgroundColor:colors.red}} onPress={this.addFavorite.bind(this)}>
-  //             <Image source={require('image!ico_heart')}></Image>
-  //           </TouchableHighlight>
 };
 var colors = {
   red: '#930c10',
@@ -163,9 +176,10 @@ var styles = StyleSheet.create({
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
+    marginTop: 64,
   },
   title: {
-    padding: 20,
+    margin: 20,
     fontSize: 20,
     textAlign: 'center',
   },
@@ -217,7 +231,7 @@ var styles = StyleSheet.create({
     flex: 1, 
   },
   stepImage: {
-    resizeMode: 'contain',
+    flex:1,
     height: 200,
     marginLeft:20,
     marginRight: 20,
@@ -230,9 +244,12 @@ var styles = StyleSheet.create({
     color: colors.red,
     marginRight:0,
   },
-  ingredientElement: {
-
-  }
+  iconBrand: {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    backgroundColor: 'transparent',
+  },
 
 });
 module.exports = RecipeSingle;

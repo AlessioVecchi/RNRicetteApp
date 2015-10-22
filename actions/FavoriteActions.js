@@ -11,6 +11,7 @@ var FavoriteActions = {
 			recipeId: recipeId
 		});
 	},
+	
 	removeFavorite: function(recipeId) {
 		//dispact actions
 		Dispatcher.dispatch({

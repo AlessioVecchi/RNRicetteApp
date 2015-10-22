@@ -1,6 +1,4 @@
 
 curl "http://localhost:8081/index.android.bundle?platform=android&dev=false&minify=true" -o "android/app/src/main/assets/index.android.bundle"
 
-cd android && ./gradlew assembleRelease && ./gradlew installRelease
-
-npm install --python=python2.7
+cd android && ./gradlew assembleRelease && ./gradlew installRelease && cd ..

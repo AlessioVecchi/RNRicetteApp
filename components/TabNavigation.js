@@ -24,7 +24,7 @@ class TabNavigationButton extends Component {
       <TouchableHighlight style={styles.btnWrap}
         underlayColor={colors.red}
         onPress={()=> this.props.selectTab(this.props.tabContent.id)}>
-        <View>
+        <View style={styles.btnWrap}>
           <Text style={styles.btnText}>{this.props.tabContent.text}</Text>
           <View style={[styles.underline, this.props.tabContent.selected && styles.selectedButton]}></View>
         </View>
@@ -53,20 +53,23 @@ var colors = {
 }
 var styles = StyleSheet.create({
   tabs: {
-    height: 70,
     backgroundColor: colors.red,
     flexDirection: 'row',
     justifyContent: 'space-around',
     alignItems: 'center',
   },
-  
+  btnWrap: {
+    height: 70,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   btnText: {
     color: '#fff',
     fontSize: 17,
   },
   underline: {
     position: 'absolute',
-    bottom: -5,
+    bottom: 15,
     left: -15,
     right: -15,
     height: 2,

@@ -12,7 +12,7 @@ var {
 } = React;
 
 var RecipesFilter = require('./RecipesFilter');
-var MenuLateral = require('./MenuLateral');
+var SideMenu = require('./SideMenu');
 var RecipeButtons = require('./RecipeButtons');
 
 var NavigationBarRouteMapper = {
@@ -23,7 +23,7 @@ var NavigationBarRouteMapper = {
     	return (
   			<TouchableHighlight style={styles.navBarWrap}
           underlayColor="transparent"
-          onPress={() => navigator.push({ title:'Menu', component: MenuLateral })}>
+          onPress={() => navigator.push({ title:'Menu', component: SideMenu })}>
           <Image
             style={[styles.icon, styles.iconMenu]}
             source={require('image!ico_menu')}

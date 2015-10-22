@@ -8,7 +8,11 @@ var {
   TouchableHighlight,
   View,
   Component,
+  PixelRatio,
+  Dimensions
 } = React;
+
+
 
 var RecipesFilter = require('./RecipesFilter');
 var RecipeButtons = require('./RecipeButtons');
@@ -36,6 +40,7 @@ class LeftButton extends Component {
     return (  
       <TouchableHighlight
         onPress={() => this.props.navigator.pop()}
+        underlayColor="transparent"
         style={[styles.navBarWrap, styles.leftButton]}>
         <Image
           style={styles.icon}
@@ -77,7 +82,7 @@ class RightButton extends Component {
         case 'RecipeTypeKey':
         default:
           // RecipesFilter
-          return ( <Text />);
+          return ( <Text style={[styles.navBarWrap, styles.rightButton]} />);
         break;
       }  
   }
@@ -107,44 +112,45 @@ class RecipeNavigationBar extends Component {
   }
 }
 
+var SCREEN_WIDTH = Dimensions.get('window').width;
+
 var styles = StyleSheet.create({
   navbar: {  
     backgroundColor: '#c8201f',
     height: 64,
+    // paddingTop: 14,
     position: 'absolute',
     top:0,
     left:0,
     right:0,
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-  navBarWrap: {
     flex: 1,
-    justifyContent: 'center',
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'space-between',
   },
+  
   navBarText: {
     color: '#fff',
-    paddingLeft: 10,
-    paddingRight: 10,
+    fontSize: 21,
+    width: SCREEN_WIDTH - 100,
+    textAlign: 'center',
   },
   icon: {
+    margin: 5,
     width: 30,
     height: 30,
-    margin: 5,
     resizeMode: 'contain',
   },
   iconMenu: {
     marginLeft: 0,
   },
   leftButton: {
-    position: 'absolute',
-    top: 13,
-    left: 0,
+    width: 50,
+    alignItems: 'flex-start',
   },
   rightButton: {
-    position: 'absolute',
-    top: 13,
-    right: 0,
+    width: 50,
+    alignItems: 'flex-end',
   }
 });
 

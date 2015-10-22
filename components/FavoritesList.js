@@ -6,7 +6,7 @@ var {
 } = React;
 
 var ResourceKeys = require('../constants/ResourceKeys');
-var { getData } = require('../services/DataService');
+var DataService = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
 var BaseList = require('./BaseList');
 var FavoriteStore = require('./../stores/FavoriteStore');
@@ -33,7 +33,7 @@ class FavoritesList extends Component {
   }
 
   reloadFavorite() {
-    getData(ResourceKeys.recipes).then((responseData) => {
+    DataService.getData(ResourceKeys.recipes).then((responseData) => {
       FavoriteStore.getAll().then((favorites) => {
         var favoritesRecipes = [];
         favorites.forEach((item, index) => {    

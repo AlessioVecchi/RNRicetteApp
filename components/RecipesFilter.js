@@ -13,7 +13,7 @@ var {
 } = React;
 
 var ResourceKeys = require('../constants/ResourceKeys');
-var { getData } = require('../services/DataService');
+var DataService = require('../services/DataService');
 var RecipesList = require('./RecipesList');
 var TabNavigation = require('./TabNavigation');
 
@@ -48,7 +48,7 @@ class RecipesFilter extends Component {
   }
   
   fetchData(resourceKey) {
-    getData(resourceKey).then((responseData)=> {
+    DataService.getData(resourceKey).then((responseData)=> {
       this.setState({
         dataSource: this.state.dataSource.cloneWithRows(responseData),
         loaded: true,
@@ -82,6 +82,7 @@ class RecipesFilter extends Component {
         <ListView
           dataSource={this.state.dataSource}
           renderRow={this.renderFilters.bind(this)}
+          automaticallyAdjustContentInsets={false}
           style={styles.listView}
         />
       </View>
@@ -204,8 +205,6 @@ var styles = StyleSheet.create({
     overflow: 'hidden',
   },
   listView: {
-    backgroundColor: colors.red,
-    marginTop: -15,
     paddingTop: 0,
     paddingBottom: 40,
   },

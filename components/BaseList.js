@@ -41,6 +41,8 @@ class BaseList extends Component {
       <ListView
         dataSource={this.state.dataSource}
         renderRow={this.renderRecipe.bind(this)}
+        automaticallyAdjustContentInsets={false}
+        renderFooter={()=><View style={{height: 80,}}></View>}
         style={styles.listView} />
     );
   }
@@ -65,18 +67,26 @@ class BaseList extends Component {
   }
   
   renderRecipe(recipe) {
+    var iconBrand = '';
+    if(recipe.ProductType === 'mondosnello') {
+      iconBrand = require('image!snello_ico');
+    } else {
+      iconBrand = require('image!rovagnati_ico');
+    }
+   
     return (
-      <TouchableHighlight style={styles.itemWrap}
+      <TouchableHighlight style={[styles.itemWrap, styles.mTop20]}
           onPress={() => this.goToRecipe(recipe.ID)}
           underlayColor="transparent">
         <View style={styles.itemWrap}>
           <View style={styles.imgWrap}>
             <Image source={{uri: recipe.ImageUrl}}
               style={styles.img} />
+            <Image source={iconBrand} style={styles.iconBrand} />
           </View>
+          
           <View style={styles.imgFilter}>
             <Image source={require('image!img_filter_btm')} />
-
           </View>
           <Text style={styles.title}>{recipe.Title}</Text>
         </View>
@@ -96,20 +106,27 @@ var styles = StyleSheet.create({
     padding: 20,
     paddingTop: 40,
     paddingBottom: 40,
-    backgroundColor: '#F5FCFF',
   },
   year: {
     textAlign: 'center',
   },
+  mTop20: {
+    marginTop: 20,
+  },
   itemWrap: {
     flex: 1,
     margin: 0,
-    marginTop: 20,
     height: 250,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
     position: 'relative',
+  },
+  iconBrand: {
+    position: 'absolute',
+    top: 15,
+    left: 15,
+    backgroundColor: 'transparent',
   },
   imgWrap: {
     flex: 1,
