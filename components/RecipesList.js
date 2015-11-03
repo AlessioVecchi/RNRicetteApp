@@ -5,9 +5,9 @@ var {
   Component,
 } = React;
 
-var ResourceKeys = require('../constants/ResourceKeys');
-// var { getData } = require('../services/DataService');
-var DataService = require('../services/DataService');
+//var ResourceKeys = require('../constants/ResourceKeys');
+//var DataService = require('../services/DataService');
+var RecipeStore = require('../stores/RecipeStore');
 var RecipeSingle = require('./RecipeSingle');
 var BaseList = require('./BaseList');
 var { filter, find } = require('lodash');
@@ -28,21 +28,38 @@ class RecipesList extends Component {
   }
 
   componentDidMount() {
-    DataService.getData(ResourceKeys.recipes).then((responseData) => {
-      var recipeData = responseData;
-      if(this.props.route.data) {
-        //console.log(this.props.route.data.Key);
-        var dataFilter = this.props.route.data;
-        recipeData = filter(responseData, (item) => {
-          return item[dataFilter.Key] == dataFilter.Value;
+    console.log('component mount');
+    //DataService.getData(ResourceKeys.recipes)
+
+    RecipeStore.getByFilter(this.props.route.data)
+      .then((recipes) => {
+        this.setState({
+          dataSource: recipes,
         });
-      } 
+      }, (err) => {
+        console.log("reject", err)
+      })
+      .catch((err)=> console.log("catch", err));
 
-      this.setState({
-        dataSource: recipeData,
-      });
+    RecipeStore.getAll()
+      .then((responseData) => {
+        var recipeData = responseData;
+        if(this.props.route.data) {
+          //console.log(this.props.route.data.Key);
+          var dataFilter = this.props.route.data;
+          recipeData = filter(responseData, (item) => {
+            return item[dataFilter.Key] == dataFilter.Value;
+          });
+        } 
 
-    });
+        this.setState({
+          dataSource: recipeData,
+        });
+        
+      }, (err) => {
+        console.log("reject", err)
+      })
+      .catch((err)=> console.log("catch", err));
   }
 
   render() {

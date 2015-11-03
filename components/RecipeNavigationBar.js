@@ -12,8 +12,6 @@ var {
   Dimensions
 } = React;
 
-
-
 var RecipesFilter = require('./RecipesFilter');
 var RecipeButtons = require('./RecipeButtons');
 
@@ -55,36 +53,33 @@ class RightButton extends Component {
   constructor(props) {
     super(props);
   }
-
   render() {
-
-      
-      switch(this.props.section) {
-        case 'home':
-        return (
-          <TouchableHighlight style={[styles.navBarWrap, styles.rightButton]}
-            underlayColor="transparent"
-            onPress={() => this.props.navigator.push({ title:'Filtra Ricette', section: 'filter', component: RecipesFilter })}>
-            <Image
-              style={styles.icon}
-              source={require('image!ico_filter')}
-            />
-          </TouchableHighlight>
-        );
-        break;
-        case 'recipe-single':
-          var routes = this.props.navigator.getCurrentRoutes();
-          var route = routes[routes.length -1];
-          //console.log('route', route.data.Value);
-          return <RecipeButtons recipeId={route.data.Value} />;
-        break;
-        case 'ProductID':
-        case 'RecipeTypeKey':
-        default:
-          // RecipesFilter
-          return ( <Text style={[styles.navBarWrap, styles.rightButton]} />);
-        break;
-      }  
+    switch(this.props.section) {
+      case 'home':
+      return (
+        <TouchableHighlight style={[styles.navBarWrap, styles.rightButton]}
+          underlayColor="transparent"
+          onPress={() => this.props.navigator.push({ title:'Filtra Ricette', section: 'filter', component: RecipesFilter })}>
+          <Image
+            style={styles.icon}
+            source={require('image!ico_filter')}
+          />
+        </TouchableHighlight>
+      );
+      break;
+      case 'recipe-single':
+        var routes = this.props.navigator.getCurrentRoutes();
+        var route = routes[routes.length -1];
+        //console.log('route', route.data.Value);
+        return <RecipeButtons recipeId={route.data.Value} />;
+      break;
+      case 'ProductID':
+      case 'RecipeTypeKey':
+      default:
+        // RecipesFilter
+        return ( <Text style={[styles.navBarWrap, styles.rightButton]} />);
+      break;
+    }  
   }
 }
 
@@ -100,8 +95,12 @@ class RecipeNavigationBar extends Component {
   }
 
   render() {
+    var recipeSingle;
+    if(this.props.section === 'recipe-single') {
+      recipeSingle = true;
+    }
     return (
-      <View style={styles.navbar}> 
+      <View style={[styles.navbar, recipeSingle && styles.navbarSingle]}> 
         <LeftButton navigator={this.props.navigator} section={this.props.section} toggleMenu={this.props.toggleMenu} />
         <View style={styles.navBarWrap}>
           <Text style={styles.navBarText}>{this.props.title}</Text>
@@ -128,7 +127,9 @@ var styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'space-between',
   },
-  
+  navbarSingle: {
+    // backgroundColor: 'transparent',
+  },
   navBarText: {
     color: '#fff',
     fontSize: 21,

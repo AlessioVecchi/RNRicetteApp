@@ -14,25 +14,13 @@ var {
   ListView
 } = React;
 
-var ResourceKeys = require('../constants/ResourceKeys');
-var DataService = require('../services/DataService');
+//var ResourceKeys = require('../constants/ResourceKeys');
+//var DataService = require('../services/DataService');
+var RecipeStore = require('../stores/RecipeStore');
 var TabNavigation = require('./TabNavigation');
 var { find } = require('lodash');
 
-// var SetIntervalMixin = {
-//   componentWillMount: function() {
-//     console.log('SetIntervalMixin.componentWillMount');
-//     this.intervals = [];
-//   },
-//   setInterval: function() {
-//     this.intervals.push(setInterval.apply(null, arguments));
-//   },
-//   componentWillUnmount: function() {
-//     console.log('SetIntervalMixin.componentWillUnmount');
-//     this.intervals.forEach(clearInterval);
-//   }
-// };
-//mixins: [SetIntervalMixin], // Use the mixin
+var BasketStore = require('./../stores/BasketStore');
 
 class RecipeSingle extends Component {
   
@@ -59,23 +47,40 @@ class RecipeSingle extends Component {
       ],
     };
   }
-
+  componentWillUnmount() {
+    BasketStore.removeChangeListener(this.changeListener);
+  }
   componentDidMount() {
-    this.fetchData(ResourceKeys.recipes);
+    this.changeListener = this.basketChanged.bind(this);
+    BasketStore.addChangeListener(this.changeListener);
+    
+    this.fetchData();
   }
 
-  fetchData(resourceKey) {
-    DataService.getData(resourceKey).then((responseData)=> {
-      var filter = this.props.route.data.Value;
-      var recipeData = find(responseData, (item) => {
-        return item.ID == filter;
+  basketChanged() {
+    console.log('basket changedddddd');
+  }
+
+  fetchData() {
+    RecipeStore.getById(this.props.route.data.Value)
+      .then((recipeData) =>  {
+        this.setState({
+          recipe: recipeData,
+          dataSource: this.state.dataSource.cloneWithRows(recipeData.Steps),
+          loaded: true,
+        });
       });
-      this.setState({
-        recipe: recipeData,
-        dataSource: this.state.dataSource.cloneWithRows(recipeData.Steps),
-        loaded: true,
-      });
-    });
+    // DataService.getData(resourceKey).then((responseData)=> {
+    //   var filter = this.props.route.data.Value;
+    //   var recipeData = find(responseData, (item) => {
+    //     return item.ID == filter;
+    //   });
+    //   this.setState({
+    //     recipe: recipeData,
+    //     dataSource: this.state.dataSource.cloneWithRows(recipeData.Steps),
+    //     loaded: true,
+    //   });
+    // });
   }
 
   selectTab(tabId) {

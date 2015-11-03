@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var CACHE_DURATION =  60 * 1000; // millisenconds 
+var CACHE_DURATION =  60 *60 * 1000; // millisenconds 
 var REQUEST_URL = 'http://mondosnello.staging.extra.it/api/';
 var LAST_UPDATE = 'last-update';
 
@@ -29,7 +29,7 @@ class DataService {
 			return date;
 			console.log('getLastUpdateData', date);
 		} catch (err) { 
-			console.err("error in calling server: ", requestUrl, err);
+			console.log("error in calling server: ", requestUrl, err);
 		}
 		return null;
 	}
@@ -57,7 +57,7 @@ class DataService {
 			}
 		} catch (err) {
 			//somethings goes wrong
-			console.err('checkForUpdate', err);		
+			console.log('checkForUpdate', err);		
 		}
 		console.log('checkForUpdate', result);	
 		return result;
@@ -66,7 +66,7 @@ class DataService {
 	async getData(resourceKey, forceReset) {
 		//forceReset = true;
 		//var lastUpdate = await this.getRemoteLastUpdateData(resourceKey);
-		var updateAvailable = await this.checkForUpdate(resourceKey);
+		//var updateAvailable = await this.checkForUpdate(resourceKey);
 
 		if(forceReset) { 
 			await AsyncStorage.removeItem(resourceKey);
@@ -94,7 +94,7 @@ class DataService {
   				cachebleObj = new CachebleObject(body);
   				//save the last update date
   				var cacheLastUpdateKey = this.getResourceLastUpdateKey(resourceKey);
-  				await AsyncStorage.setItem(cacheLastUpdateKey, JSON.stringify(updateAvailable.remote)); 
+  				//await AsyncStorage.setItem(cacheLastUpdateKey, JSON.stringify(updateAvailable.remote)); 
 			} catch (err) { 
 				console.log("getData: error in calling server: ", err);
 				//error in call server -> restore the original value

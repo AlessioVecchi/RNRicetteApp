@@ -4,7 +4,6 @@ var React = require('react-native');
 var FavoriteActions = require('./../actions/FavoriteActions');
 var FavoriteStore = require('./../stores/FavoriteStore');
 var BasketActions = require('../actions/BasketActions');
-var BasketStore = require('./../stores/BasketStore');
 
 var {
   View,
@@ -17,7 +16,6 @@ class RecipeButtons extends React.Component {
   constructor(props) {
     super(props);
     this.changeListener = null;
-    this.basketListener = null;
     this.state = {
       isFavorite: false
     }
@@ -25,14 +23,11 @@ class RecipeButtons extends React.Component {
   
   componentWillUnmount() {
     FavoriteStore.removeChangeListener(this.changeListener);
-    BasketStore.removeChangeListener(this.changeListener);
   }
 
   componentDidMount() {
     this.changeListener = this.reloadFavorite.bind(this);
-    this.basketListener = this.basketChanged.bind(this);
     FavoriteStore.addChangeListener(this.changeListener);
-    BasketStore.addChangeListener(this.changeListener);
     this.reloadFavorite();
   }
 
@@ -41,12 +36,7 @@ class RecipeButtons extends React.Component {
       this.setState({ isFavorite: isFavorite });
     });
   }
-  basketChanged() {
-    BasketStore.getAll().then((ingredients) => {
-      console.log('basket changed', ingredients);
-    });   
-  }
-
+  
   addFavorite() {
     if(!this.state.isFavorite) {
       FavoriteActions.addFavorite(this.props.recipeId);

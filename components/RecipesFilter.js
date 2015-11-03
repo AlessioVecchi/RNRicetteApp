@@ -98,7 +98,7 @@ class RecipesFilter extends Component {
   }
 
   filterRecipes(filter) {
-    let recipeFilter = {};
+    var recipeFilter = {};
 
     if(this.state.selectedTab === ResourceKeys.recipestypes) {
       recipeFilter = {

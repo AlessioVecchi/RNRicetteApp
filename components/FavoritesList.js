@@ -5,11 +5,12 @@ var {
   Component,
 } = React;
 
-var ResourceKeys = require('../constants/ResourceKeys');
-var DataService = require('../services/DataService');
+//var ResourceKeys = require('../constants/ResourceKeys');
+//var DataService = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
 var BaseList = require('./BaseList');
 var FavoriteStore = require('./../stores/FavoriteStore');
+var RecipeStore = require('../stores/RecipeStore')
 var { filter, find } = require('lodash');
 
 
@@ -33,17 +34,23 @@ class FavoritesList extends Component {
   }
 
   reloadFavorite() {
-    DataService.getData(ResourceKeys.recipes).then((responseData) => {
-      FavoriteStore.getAll().then((favorites) => {
-        var favoritesRecipes = [];
-        favorites.forEach((item, index) => {    
-          favoritesRecipes.push(find(responseData, { ID: item.id }));
-        });
-        this.setState({
-          dataSource: favoritesRecipes,
-        });
+
+    RecipeStore.getFavorites()
+      .then((recipes) => { 
+        this.setState({ dataSource: recipes });
       });
-    });
+
+    // DataService.getData(ResourceKeys.recipes).then((responseData) => {
+    //   FavoriteStore.getAll().then((favorites) => {
+    //     var favoritesRecipes = [];
+    //     favorites.forEach((item, index) => {    
+    //       favoritesRecipes.push(find(responseData, { ID: item.id }));
+    //     });
+    //     this.setState({
+    //       dataSource: favoritesRecipes,
+    //     });
+    //   });
+    // });
   }
 
   render() {
