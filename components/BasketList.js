@@ -5,13 +5,9 @@ var {
   StyleSheet,
   Text,
   View,
-  WebView,
   ScrollView,
-  Image,
-  TextInput,
   TouchableHighlight,
   Component,
-  ListView
 } = React;
 
 var BasketActions = require('../actions/BasketActions');
@@ -60,7 +56,7 @@ class BasketList extends Component {
        <View key={index} style={styles.ingredient}>
             <Text style={styles.ingredientElement}><Text style={styles.ingredientQty}>{ingredient.Quantity}</Text> {ingredient.Element}</Text>
             <TouchableHighlight style={styles.ingredientActions} onPress={this.remove.bind(this, index)}>
-              <Text>[x]</Text>
+              <Text style={{fontSize:25, fontWeight: '600'}}>&times;</Text>
             </TouchableHighlight>
         </View>
     );
@@ -69,20 +65,30 @@ class BasketList extends Component {
   render() {
     var content;
   
-    content = this.state.ingredients.map((step, index) => {
+    if(this.state.ingredients.length>0) {
+      var ingredientsContent = this.state.ingredients.map((step, index) => {
         return this.renderIngredient(step,index);
-    });
+      });
+      content = 
+          (<View style={styles.container}>
+            <TouchableHighlight style={{padding: 10}} onPress={this.removeAll.bind(this)}>
+              <Text style={styles.cleanButton}>rimuovi tutto</Text>
+            </TouchableHighlight>
+            <View>
+              {ingredientsContent}
+            </View>
+          </View>);
+    } else {
+      //empty basket list
+      content = 
+          (<View style={styles.container}>
+            <Text style={styles.title}>Nessun ingrediente nel carrello</Text>
+          </View>);
+    }   
  
     return (
-      <ScrollView>
-        <View style={styles.container}>
-          <TouchableHighlight style={{padding: 10}} onPress={this.removeAll.bind(this)}>
-            <Text>rimuovi tutto</Text>
-          </TouchableHighlight>
-          <View>
-            {content}
-          </View>
-        </View>
+      <ScrollView>  
+        {content}
       </ScrollView>
     );
   }
@@ -94,7 +100,15 @@ var colors = {
 var styles = StyleSheet.create({
   container: {
     flex: 1,
-    paddingTop:50,
+    paddingTop: 50,
+  },
+  cleanButton: {
+    alignSelf: 'center',
+    fontSize:20
+  },
+  title: {
+    fontSize:25,
+    alignSelf: 'center'
   },
   ingredient: {
     flexDirection: 'row',

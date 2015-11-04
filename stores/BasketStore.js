@@ -91,5 +91,3 @@ Dispatcher.register(function(action) {
 });
 
 module.exports = BasketStore;
-
-

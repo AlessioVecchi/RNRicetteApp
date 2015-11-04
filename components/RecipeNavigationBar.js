@@ -14,6 +14,7 @@ var {
 
 var RecipesFilter = require('./RecipesFilter');
 var RecipeButtons = require('./RecipeButtons');
+var Sections = require('../constants/AppSections');
 
 class LeftButton extends Component {
   constructor(props) {
@@ -22,7 +23,7 @@ class LeftButton extends Component {
 
   render() {
     //Home Page
-    if (this.props.section === 'home') {
+    if (this.props.section === Sections.HOME) {
       return (
         <TouchableHighlight style={[styles.navBarWrap, styles.leftButton]}
           underlayColor="transparent"
@@ -34,7 +35,7 @@ class LeftButton extends Component {
         </TouchableHighlight>
       );
     }
-
+    //other page display back button
     return (  
       <TouchableHighlight
         onPress={() => this.props.navigator.pop()}
@@ -53,13 +54,14 @@ class RightButton extends Component {
   constructor(props) {
     super(props);
   }
+
   render() {
     switch(this.props.section) {
-      case 'home':
+      case Sections.HOME:
       return (
         <TouchableHighlight style={[styles.navBarWrap, styles.rightButton]}
           underlayColor="transparent"
-          onPress={() => this.props.navigator.push({ title:'Filtra Ricette', section: 'filter', component: RecipesFilter })}>
+          onPress={() => this.props.navigator.push({ title: 'Filtra Ricette', section: Sections.FILTERS, component: RecipesFilter })}>
           <Image
             style={styles.icon}
             source={require('image!ico_filter')}
@@ -67,11 +69,14 @@ class RightButton extends Component {
         </TouchableHighlight>
       );
       break;
-      case 'recipe-single':
+      case Sections.RECIPE:
         var routes = this.props.navigator.getCurrentRoutes();
-        var route = routes[routes.length -1];
-        //console.log('route', route.data.Value);
-        return <RecipeButtons recipeId={route.data.Value} />;
+        var routeId;
+        if(routes.length > 0) {
+          var route = routes[routes.length -1];
+          routeId = route.data.Value;  
+        } 
+        return <RecipeButtons recipeId={routeId} />;
       break;
       case 'ProductID':
       case 'RecipeTypeKey':
@@ -83,20 +88,19 @@ class RightButton extends Component {
   }
 }
 
-
 class RecipeNavigationBar extends Component {
   constructor(props) {
     super(props);
   }
 
-  componentWillReceiveProps(nextProps) {
-    //this.props.navigator.push({ title: 'Lista della spesa', component: '', data: {} })
-    //console.log(nextProps);
-  }
+  //componentWillReceiveProps(nextProps) {
+  //this.props.navigator.push({ title: 'Lista della spesa', component: '', data: {} })
+  //console.log(nextProps);
+  //}
 
   render() {
-    var recipeSingle;
-    if(this.props.section === 'recipe-single') {
+    var recipeSingle = false;
+    if(this.props.section === Sections.RECIPE) {
       recipeSingle = true;
     }
     return (

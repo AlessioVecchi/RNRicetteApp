@@ -24,13 +24,12 @@ class Ricette extends Component {
     super(props);
     this.state = {
       showMenu: false,
-      translateValue: new Animated.Value(0),
-      scaleValue: new Animated.Value(1)
+      translateValue: new Animated.Value(0), //init value
+      scaleValue: new Animated.Value(1)      //init value
     }
   }
 
   toggleMenu(event) {
-    
     var visibility = this.state.showMenu;
     this.setState({
       showMenu: !visibility,
@@ -113,8 +112,7 @@ var styles = StyleSheet.create({
   navBar: {
     backgroundColor: '#c8201f',
   },
-  
-   buttonText: {
+  buttonText: {
     color: '#000',
     padding: 10,
     fontSize: 25,

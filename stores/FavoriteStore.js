@@ -37,17 +37,21 @@ var FavoriteStore = Object.assign({}, EventEmitter.prototype, {
 	}, 
 
 	add: async function(recipeId){
-		var favorites = await FavoriteStore.getAll();
-		favorites.push({ id: recipeId });
-		await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+		if(recipeId) {
+			var favorites = await FavoriteStore.getAll();
+			favorites.push({ id: recipeId });
+			await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+		}
 	},
 
 	remove: async function(recipeId) {
-		var favorites = await FavoriteStore.getAll();
-		if(favorites) {
-			var index = _.findIndex(favorites, function(item) { return item.id == recipeId });
-			favorites.splice(index, 1);
-			await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+		if(recipeId) {
+			var favorites = await FavoriteStore.getAll();
+			if(favorites) {
+				var index = _.findIndex(favorites, function(item) { return item.id == recipeId });
+				favorites.splice(index, 1);
+				await AsyncStorage.setItem(FAVORITES_KEY, JSON.stringify(favorites));
+			}
 		}
 	}
 });

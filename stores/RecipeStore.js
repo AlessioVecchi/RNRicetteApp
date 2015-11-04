@@ -7,9 +7,7 @@ var DataService = require('../services/DataService');
 var ResourceKeys = require('../constants/ResourceKeys');
 var FavoriteStore = require('./FavoriteStore')
 
-var { find } = require('lodash');
-
-// var _ = require('lodash');
+var { find, filter } = require('lodash');
 var CHANGE_EVENT = 'change';
 // var BASKET_KEY =  'basket';
 
@@ -39,13 +37,28 @@ var RecipeStore = Object.assign({}, EventEmitter.prototype, {
 		return recipe;
 	}, 
 
-	getByFilter: async function(filter) {
+	getObjectValueForKeyPath: function(obj, path) {
+	  var paths = path.split('.');
+	  var current = obj;
+	  for (var i = 0; i < paths.length; ++i) {
+	    if (current[paths[i]] == undefined) {
+	      return undefined;
+	    } else {
+	      current = current[paths[i]];
+	    }
+	  }
+	  return current;
+	},
+	
+	getByFilter: async function(filterData) {
 		var recipes = await RecipeStore.getAll();
 		var recipesFiltered = recipes;
-		if(filter) {
-          //console.log(this.props.route.data.Key);
-          recipesFiltered = filter(responseData, (item) => {
-            return item[dataFilter.Key] == dataFilter.Value;
+		if(filterData) {
+          recipesFiltered = filter(recipes, (item) => {
+            //return item[filterData.Key] == filterData.Value;
+            var objValue = RecipeStore.getObjectValueForKeyPath(item, filterData.Key);
+            //console.log('getByFilter', value, filterData.Value);
+            return objValue == filterData.Value
           });
         } 
 		return recipesFiltered;
@@ -56,22 +69,25 @@ var RecipeStore = Object.assign({}, EventEmitter.prototype, {
 		var favorites = await FavoriteStore.getAll();
 		var favRecipes = [];
 		favorites.forEach((item, index) => {    
-				favRecipes.push(find(recipes, { ID: item.id }));
+			favRecipes.push(find(recipes, { ID: item.id }));
 		});
 		return favRecipes;
-		// DataService.getData(ResourceKeys.recipes).then((responseData) => {
-		// 	FavoriteStore.getAll().then((favorites) => {
-		// 		var favoritesRecipes = [];
-		// 		favorites.forEach((item, index) => {    
-		// 			favoritesRecipes.push(find(responseData, { ID: item.id }));
-		// 		});
-		// 		this.setState({
-		// 			dataSource: favoritesRecipes,
-		// 		});
-		// 	});
-		// });
 	},
 
+	getRecipeTypes: async function() {
+		var recipeTypes = await DataService.getData(ResourceKeys.recipestypes);
+		return recipeTypes;
+	},
+
+	getProducts: async function() {
+		var products = await DataService.getData(ResourceKeys.products);
+		return products;
+	},
+
+	getCategories: async function() {
+		var categories = await DataService.getData(ResourceKeys.categories);
+		return categories;
+	},
 });
 
 module.exports = RecipeStore;

@@ -14,9 +14,11 @@ var {
   Component,
 } = React;
 
+var Sections = require('../constants/AppSections');
 var RecipesList = require('./RecipesList');
 var FavoritesList = require('./FavoritesList');
 var BasketList = require('./BasketList');
+var BasketListHorizScroll = require('./BasketListHorizScroll');
 
 class SideMenu extends Component {
   constructor(props) {
@@ -53,7 +55,7 @@ class SideMenu extends Component {
         underlayColor={colors.red}
         onPress={()=> {
             this.props.toggleMenu();
-            this.props.navigator.push({ title: 'Ricette Snello', component: RecipesList, data: {Key: 'ProductType', Value: 'mondosnello',} });
+            this.props.navigator.push({ title: 'Ricette Snello', component: RecipesList, section: Sections.RECIPE_LIST_FILTERED, data: {Key: 'ProductType', Value: 'mondosnello',} });
           }
         }> 
           <View style={styles.menuItem}>
@@ -70,7 +72,7 @@ class SideMenu extends Component {
         underlayColor={colors.red}
         onPress={()=> {
             this.props.toggleMenu();
-            this.props.navigator.push({ title: 'Ricette Rovagnati', component: RecipesList, data: {Key: 'ProductType', Value: 'rovagnati',} });
+            this.props.navigator.push({ title: 'Ricette Rovagnati', component: RecipesList, section: Sections.RECIPE_LIST_FILTERED, data: {Key: 'ProductType', Value: 'rovagnati',} });
           }
         }>
           <View style={styles.menuItem}>
@@ -87,7 +89,7 @@ class SideMenu extends Component {
         underlayColor={colors.red}
         onPress={()=> {
             this.props.toggleMenu();
-            this.props.navigator.push({ title: 'Preferiti', component: FavoritesList, data: {Key: 'Favorites', Value: 'Favorites'}});
+            this.props.navigator.push({ title: 'Preferiti', component: FavoritesList,  section: Sections.FAVORITES, data: {Key: 'Favorites', Value: 'Favorites'}});
           }
         }>
           <View style={styles.menuItem}>
@@ -104,7 +106,7 @@ class SideMenu extends Component {
         underlayColor={colors.red}
         onPress={()=> {
             this.props.toggleMenu();
-            this.props.navigator.push({ title: 'Lista della spesa', component: BasketList, data: {Key: 'Basket', Value: 'Basket'}});
+            this.props.navigator.push({ title: 'Lista della spesa', component: BasketListHorizScroll, section: Sections.BASKET, data: {Key: 'Basket', Value: 'Basket'}});
           }
         }>
           <View style={styles.menuItem}>

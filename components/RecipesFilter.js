@@ -12,8 +12,9 @@ var {
   Component,
 } = React;
 
+var Sections = require('../constants/AppSections');
 var ResourceKeys = require('../constants/ResourceKeys');
-var DataService = require('../services/DataService');
+var RecipeStore = require('../stores/RecipeStore');
 var RecipesList = require('./RecipesList');
 var TabNavigation = require('./TabNavigation');
 
@@ -48,13 +49,33 @@ class RecipesFilter extends Component {
   }
   
   fetchData(resourceKey) {
-    DataService.getData(resourceKey).then((responseData)=> {
-      this.setState({
-        dataSource: this.state.dataSource.cloneWithRows(responseData),
-        loaded: true,
-        selectedTab: resourceKey,
-      });
-    });
+    switch(resourceKey) {
+      case ResourceKeys.recipestypes:
+        RecipeStore.getRecipeTypes().then((responseData) => {
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(responseData),
+            loaded: true,
+            selectedTab: resourceKey,
+          });
+        });
+      break;
+      case ResourceKeys.products:
+        RecipeStore.getCategories().then((responseData) => {
+          this.setState({
+            dataSource: this.state.dataSource.cloneWithRows(responseData),
+            loaded: true,
+            selectedTab: resourceKey,
+          });
+        });
+      break;
+    }
+    // DataService.getData(resourceKey).then((responseData)=> {
+    //   this.setState({
+    //     dataSource: this.state.dataSource.cloneWithRows(responseData),
+    //     loaded: true,
+    //     selectedTab: resourceKey,
+    //   });
+    // });
   }
 
   selectTab(tabId) {
@@ -107,14 +128,15 @@ class RecipesFilter extends Component {
       }
     } else {
       recipeFilter = {
-        Key: 'ProductID',
+        Key: 'Product.CategoryID',
         Value: filter.ID,
       }
     }
 
     this.props.navigator.push({
-      data: recipeFilter,
       title: filter.Title,
+      section: Sections.RECIPE_LIST_FILTERED,
+      data: recipeFilter,
       component: RecipesList,
     });
   }

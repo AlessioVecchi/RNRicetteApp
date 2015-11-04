@@ -12,6 +12,7 @@ var {
 } = React;
 
 var RecipeSingle = require('./RecipeSingle');
+var Sections = require('../constants/AppSections');
 var { filter, find } = require('lodash');
 
 class BaseList extends Component {
@@ -22,13 +23,16 @@ class BaseList extends Component {
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
       loaded: false,
+      empty: false
     }
   }
   
   componentWillReceiveProps(nextProps) {
+    var empty = (nextProps.recipesSource.length == 0);
     this.setState({
       dataSource: this.state.dataSource.cloneWithRows(nextProps.recipesSource),
       loaded: true,
+      empty: empty
     });
   }
 
@@ -36,6 +40,10 @@ class BaseList extends Component {
     if (!this.state.loaded) {
       return this.renderLoadingView();
     }
+
+    if(this.state.empty) {
+      return this.renderEmptyList();
+    } 
 
     return (
       <ListView
@@ -55,20 +63,28 @@ class BaseList extends Component {
     );
   }
 
+  renderEmptyList() {
+     return (
+      <View style={styles.containerEmpty}>
+        <Text style={{fontSize: 25}}>Nessuna ricetta</Text>
+      </View>
+    );
+  }
+
   goToRecipe(recipeId) {
     this.props.navigator.push({
       data: {
         Key: 'RecipeID',
         Value: recipeId,
       },
-      section: 'recipe-single',
+      section: Sections.RECIPE,
       component: RecipeSingle,
     });
   }
   
   renderRecipe(recipe) {
     var iconBrand = '';
-    if(recipe.ProductType === 'mondosnello') {
+    if(recipe.Product.Type === 'mondosnello') {
       iconBrand = require('image!snello_ico');
     } else {
       iconBrand = require('image!rovagnati_ico');
@@ -100,7 +116,11 @@ var styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: '#F5FCFF',
-
+  },
+  containerEmpty: {
+    flex: 1,
+    backgroundColor: '#F5FCFF',
+    marginTop: 60
   },
   listView: {
     padding: 20,
@@ -155,3 +175,4 @@ var styles = StyleSheet.create({
 });
 
 module.exports = BaseList;
+ 

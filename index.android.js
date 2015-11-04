@@ -114,8 +114,7 @@ var styles = StyleSheet.create({
   navBar: {
     backgroundColor: '#c8201f',
   },
-  
-   buttonText: {
+  buttonText: {
     color: '#000',
     padding: 10,
     fontSize: 25,

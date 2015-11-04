@@ -53,12 +53,12 @@ class RecipeSingle extends Component {
   componentDidMount() {
     this.changeListener = this.basketChanged.bind(this);
     BasketStore.addChangeListener(this.changeListener);
-    
     this.fetchData();
   }
 
   basketChanged() {
-    console.log('basket changedddddd');
+    console.log('basket changed!');
+
   }
 
   fetchData() {
