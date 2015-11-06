@@ -24,13 +24,12 @@ class Ricette extends Component {
     super(props);
     this.state = {
       showMenu: false,
-      translateValue: new Animated.Value(0),
-      scaleValue: new Animated.Value(1)
+      translateValue: new Animated.Value(0), //init value
+      scaleValue: new Animated.Value(1)      //init value
     }
   }
 
   toggleMenu(event) {
-    
     var visibility = this.state.showMenu;
     this.setState({
       showMenu: !visibility,
@@ -56,13 +55,13 @@ class Ricette extends Component {
           this.state.translateValue,                 
           {
             toValue: 0,                        
-            duration: 100
+            duration: 275
           }),
         Animated.timing(                          
           this.state.scaleValue,                 
           {
             toValue: 1,                        
-            duration: 100
+            duration: 275
           })
         ]).start();  
     }
@@ -90,7 +89,7 @@ class Ricette extends Component {
                     styles.container, 
                     { transform: [{translateX: this.state.translateValue}, {scale: this.state.scaleValue}]}
                   ]}>
-                  { React.createElement(route.component, { route, navigator }) }
+                  { React.createElement(route.component, { route, navigator, baseStyles: styles } ) }
                   <RecipeNavigationBar 
                     navigator={navigator} 
                     title={route.title} 
@@ -103,10 +102,12 @@ class Ricette extends Component {
         }} />
     );
   }
-
 }
 
 var styles = StyleSheet.create({
+  baseContainer: {
+    marginTop: 64
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff'
@@ -119,9 +120,6 @@ var styles = StyleSheet.create({
     padding: 10,
     fontSize: 25,
   },
-  // toggled: {
-  //   transform: [{translateX: 280}],
-  // }
 });
 
 AppRegistry.registerComponent('Ricette', () => Ricette);

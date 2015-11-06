@@ -91,7 +91,7 @@ var BasketListHorizScroll = React.createClass({
         toValue: 0,
         duration: 250,
       }).start();
-      //BasketActions.remove(this._targetIndex);
+      BasketActions.remove(this._targetIndex);
     }
   },
   getActionText: function() {

@@ -64,7 +64,7 @@ class DataService {
 	}
 
 	async getData(resourceKey, forceReset) {
-		//forceReset = true;
+		forceReset = true;
 		//var lastUpdate = await this.getRemoteLastUpdateData(resourceKey);
 		//var updateAvailable = await this.checkForUpdate(resourceKey);
 

@@ -5,21 +5,23 @@ var {
   StyleSheet,
   Text,
   View,
-  WebView,
   ScrollView,
   Image,
   TextInput,
   TouchableHighlight,
+  ListView,
   Component,
-  ListView
+  Animated,
+  Dimensions,
 } = React;
 
-//var ResourceKeys = require('../constants/ResourceKeys');
-//var DataService = require('../services/DataService');
-var RecipeStore = require('../stores/RecipeStore');
-var TabNavigation = require('./TabNavigation');
-var { find } = require('lodash');
+var {
+  height: deviceHeight
+} = Dimensions.get('window');
 
+var TabNavigation = require('./TabNavigation');
+var BrandTypes = require('../constants/BrandTypes');
+var RecipeStore = require('../stores/RecipeStore');
 var BasketStore = require('./../stores/BasketStore');
 
 class RecipeSingle extends Component {
@@ -28,7 +30,9 @@ class RecipeSingle extends Component {
     super(props);
     this.changeListener = null;
     this.state = {
-      recipe: {},
+      fadeAnim: new Animated.Value(0),
+      offset: new Animated.Value(-deviceHeight),
+      recipe: { },
       dataSource: new ListView.DataSource({
         rowHasChanged: (row1, row2) => row1 !== row2,
       }),
@@ -47,18 +51,55 @@ class RecipeSingle extends Component {
       ],
     };
   }
+
   componentWillUnmount() {
     BasketStore.removeChangeListener(this.changeListener);
   }
+
   componentDidMount() {
     this.changeListener = this.basketChanged.bind(this);
     BasketStore.addChangeListener(this.changeListener);
     this.fetchData();
   }
 
+  showMessage() {
+    console.log('showMessage');
+    Animated.timing(this.state.offset,                
+      {
+        duration: 200,
+        toValue: 0,                        
+      }
+    ).start( () => setTimeout(this.hideMessage.bind(this), 1500));
+    
+    // Animated.parallel([
+    //     Animated.timing(                          
+    //       this.state.offeset,                 
+    //       {
+    //         duration: 1000,
+    //         toValue: 0,                        
+           
+    //       }),
+    //     Animated.timing(this.state.fadeAnim, {
+    //       duration: 1000,
+    //       toValue: 1
+    //     })
+    // ]).start( () => {
+    //        setTimeout(this.hideMessage.bind(this), 1500);
+    // });
+
+  }
+
+  hideMessage() {
+    console.log('hideMessage');
+    Animated.timing(this.state.offset, {
+      duration: 1000,
+      toValue: -deviceHeight,
+    }).start();
+  }
+
   basketChanged() {
     console.log('basket changed!');
-
+    this.showMessage.bind(this)();
   }
 
   fetchData() {
@@ -70,17 +111,6 @@ class RecipeSingle extends Component {
           loaded: true,
         });
       });
-    // DataService.getData(resourceKey).then((responseData)=> {
-    //   var filter = this.props.route.data.Value;
-    //   var recipeData = find(responseData, (item) => {
-    //     return item.ID == filter;
-    //   });
-    //   this.setState({
-    //     recipe: recipeData,
-    //     dataSource: this.state.dataSource.cloneWithRows(recipeData.Steps),
-    //     loaded: true,
-    //   });
-    // });
   }
 
   selectTab(tabId) {
@@ -140,53 +170,114 @@ class RecipeSingle extends Component {
 
     var content;
     if(this.state.tabs[0].selected) {
+      //ingredients tab
       content = this.state.recipe.IngredientItems.map((step, index) => {
           return this.renderIngredient(step);
         });
     } else {
-       content = this.state.recipe.Steps.map((step, index) => {
+       //preparation steps tab
+      content = this.state.recipe.Steps.map((step, index) => {
         return this.renderStep(step);
       });
     }
+
     var iconBrand = '';
-    if(this.state.recipe.ProductType === 'mondosnello') {
+    console.log(this.state.recipe.Product.Type);
+    if(this.state.recipe.Product.Type === BrandTypes.MONDOSNELLO) {
       iconBrand = require('image!snello_ico');
     } else {
       iconBrand = require('image!rovagnati_ico');
     }
 
     return (
-      <ScrollView>
-        <View style={styles.recipe}>
-          <Image source={{uri: this.state.recipe.ImageUrl}}
-            style={styles.imgFull} />
-          <Image source={iconBrand} style={styles.iconBrand} />
-          <Text style={styles.title}>{this.state.recipe.Title}</Text>
-          <TabNavigation tabs={this.state.tabs} selectTab={this.selectTab.bind(this)} />
-          <View>
-            {content}
+      <View style={{ flex: 1 }}>
+        <ScrollView>
+          <View style={[styles.recipe, this.props.baseStyles.baseContainer]}>
+            <View style={{position: 'relative', backgroundColor: 'transparent'}}> 
+              <Image source={{uri: this.state.recipe.ImageUrl}}
+                style={styles.imgFull} />
+              <Image source={iconBrand} style={styles.iconBrand} />
+              <View style={styles.imgFilter}>
+                <Image source={require('image!img_filter_btm')} />
+              </View>
+              <Text style={styles.title}>{this.state.recipe.Title}</Text>
+            </View>          
+            <TabNavigation tabs={this.state.tabs} selectTab={this.selectTab.bind(this)} />
+            <View>
+              {content}
+            </View>
           </View>
-        </View>
-      </ScrollView>
+        </ScrollView>
+
+        <Animated.View style={[styles.message, styles.flexCenter,
+            { transform: [ { translateY: this.state.offset } ] }
+            ]}>
+          <View style={styles.messageContent}>
+            <Text style={{fontSize: 18, color:'white'}}>Gli ingredienti sono stati aggiunti alla lista</Text>
+          </View>
+        </Animated.View> 
+
+      </View>
     );    
   }
 };
+
+//  { opacity: this.state.fadeAnim }
+// { transform: [{translateY: this.state.offset}] } ]
 var colors = {
   red: '#930c10',
 }
 var styles = StyleSheet.create({
+
+  message: {
+    backgroundColor: 'transparent',
+    position: 'absolute',
+    top: 70,
+    right: 0,
+    //bottom: 0,
+    left: 0,
+    //transform: [{translateY: -deviceHeight}],
+    opacity:1,
+  },
+  flexCenter: {
+    flex: 1,
+    justifyContent: 'flex-start', 
+    alignItems: 'center',
+    //marginTop: 70,
+  },
+  messageContent: {
+    borderRadius: 10,
+    borderWidth: 1, 
+    borderColor: colors.red, 
+    padding:20, 
+    width: 300, 
+    backgroundColor: colors.red,
+  },
+
   recipe: {
     flex: 1,
     position: 'relative',
     justifyContent: 'flex-start',
     alignItems: 'stretch',
     backgroundColor: '#F5FCFF',
-    marginTop: 64,
+    //marginTop: 64,
   },
   title: {
-    margin: 20,
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    padding: 5,
+    color: '#fff',
     fontSize: 20,
     textAlign: 'center',
+  },
+  imgFilter: {
+    position: 'absolute',
+    bottom: 0,
+    left: 0,
+    right: 0,
+    overflow: 'hidden',
   },
   imgFull: {
     height: 300,
@@ -221,7 +312,7 @@ var styles = StyleSheet.create({
     width: 30,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 20,
+    marginRight: 0,
   },
   stepIndexText: {
     // backgroundColor: colors.red,
@@ -231,9 +322,10 @@ var styles = StyleSheet.create({
     alignSelf: 'center',
   },
   stepText: {
-    paddingLeft: 15,
+    paddingLeft: 10,
     flexWrap: 'wrap',
     flex: 1, 
+    fontSize: 16,
   },
   stepImage: {
     flex:1,
@@ -245,6 +337,9 @@ var styles = StyleSheet.create({
     padding:20,
     paddingBottom: 0,
   },
+  ingredientElement: {
+    fontSize: 16,
+  },
   ingredientQty: {
     color: colors.red,
     marginRight:0,
@@ -255,6 +350,5 @@ var styles = StyleSheet.create({
     left: 15,
     backgroundColor: 'transparent',
   },
-
 });
 module.exports = RecipeSingle;

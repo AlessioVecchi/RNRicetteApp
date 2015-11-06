@@ -89,7 +89,7 @@ class Ricette extends Component {
                     styles.container, 
                     { transform: [{translateX: this.state.translateValue}, {scale: this.state.scaleValue}]}
                   ]}>
-                  { React.createElement(route.component, { route, navigator }) }
+                  { React.createElement(route.component, { route, navigator, baseStyles: styles } ) }
                   <RecipeNavigationBar 
                     navigator={navigator} 
                     title={route.title} 
@@ -105,6 +105,9 @@ class Ricette extends Component {
 }
 
 var styles = StyleSheet.create({
+  baseContainer: {
+    marginTop: 44
+  },
   container: {
     flex: 1,
     backgroundColor: '#fff'

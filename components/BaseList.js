@@ -2,6 +2,7 @@
 
 var React = require('react-native');
 var {
+  AppRegistry,
   Image,
   ListView,
   StyleSheet,
@@ -12,6 +13,7 @@ var {
 } = React;
 
 var RecipeSingle = require('./RecipeSingle');
+var BrandTypes = require('../constants/BrandTypes');
 var Sections = require('../constants/AppSections');
 var { filter, find } = require('lodash');
 
@@ -25,6 +27,7 @@ class BaseList extends Component {
       loaded: false,
       empty: false
     }
+
   }
   
   componentWillReceiveProps(nextProps) {
@@ -84,7 +87,7 @@ class BaseList extends Component {
   
   renderRecipe(recipe) {
     var iconBrand = '';
-    if(recipe.Product.Type === 'mondosnello') {
+    if(recipe.Product.Type === BrandTypes.MONDOSNELLO){
       iconBrand = require('image!snello_ico');
     } else {
       iconBrand = require('image!rovagnati_ico');
@@ -100,7 +103,6 @@ class BaseList extends Component {
               style={styles.img} />
             <Image source={iconBrand} style={styles.iconBrand} />
           </View>
-          
           <View style={styles.imgFilter}>
             <Image source={require('image!img_filter_btm')} />
           </View>

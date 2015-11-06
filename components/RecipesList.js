@@ -5,10 +5,8 @@ var {
   Component,
 } = React;
 
-var RecipeStore = require('../stores/RecipeStore');
-var RecipeSingle = require('./RecipeSingle');
 var BaseList = require('./BaseList');
-var { filter, find } = require('lodash');
+var RecipeStore = require('../stores/RecipeStore');
 
 class RecipesList extends Component {
   constructor(props) {
@@ -19,7 +17,8 @@ class RecipesList extends Component {
   }
 
   componentDidMount() {
-    RecipeStore.getByFilter(this.props.route.data)
+    RecipeStore
+      .getByFilter(this.props.route.data)
       .then((recipes) => {
         this.setState({
           dataSource: recipes,
@@ -34,7 +33,8 @@ class RecipesList extends Component {
     return (
       <BaseList
         recipesSource={this.state.dataSource}
-        navigator={this.props.navigator} />
+        navigator={this.props.navigator} 
+        baseStyles={this.props.baseStyles} />
     );
   }
 
