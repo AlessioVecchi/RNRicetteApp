@@ -9,7 +9,7 @@ var CHANGE_EVENT = 'change';
 var FAVORITES_KEY =  'favorites';
 
 var FavoriteStore = Object.assign({}, EventEmitter.prototype, {
-	addChangeListener : function(callback) {		
+	addChangeListener : function(callback) {	
 		this.on(CHANGE_EVENT, callback);
 	},
 
@@ -17,8 +17,9 @@ var FavoriteStore = Object.assign({}, EventEmitter.prototype, {
 		this.removeListener(CHANGE_EVENT, callback);
 	},
 
-	emitChange: function() {		
-		this.emit(CHANGE_EVENT);
+	emitChange: function(params) {
+		//console.log('emitChange', params);		
+		this.emit(CHANGE_EVENT, params);
 	},
 
 	getAll: async function() {
@@ -63,14 +64,14 @@ Dispatcher.register(function(action) {
 			case ActionTypes.FAVORITE_ADD:
 				if(!isFavorite) {
 					FavoriteStore.add(recipeId).then( () => {
-						FavoriteStore.emitChange();
+						FavoriteStore.emitChange( true );
 					});
 				}
 			break;
 			case ActionTypes.FAVORITE_REMOVE:
 				if(isFavorite) {
 					FavoriteStore.remove(recipeId).then( () => {
-						FavoriteStore.emitChange();
+						FavoriteStore.emitChange( false);
 					});
 				}
 			break;

@@ -68,12 +68,35 @@ class BaseList extends Component {
 
   renderEmptyList() {
      return (
-      <View style={styles.containerEmpty}>
-        <Text style={{fontSize: 25}}>Nessuna ricetta</Text>
+      <View style={
+          { 
+            flex: 1, 
+            justifyContent: 'center', 
+            marginLeft: 20, 
+            marginRight: 20, 
+          }
+        }>
+        <View style={
+          { 
+            padding:20, 
+            borderRadius: 20, 
+            backgroundColor:'#c0c0c0'
+          }
+        }>
+          <View style={{marginBottom: 15}}>
+            <Text style={{fontSize: 18, color: colors.red }}>Non hai ancora aggiunto alcuna ricetta ai tuoi Preferiti</Text>
+          </View>
+          <View style={{alignItems: 'flex-end', backgroundColor: colors.red }}>
+            <Image source={ require('image!ico_heart') } style={[styles.icon]}></Image>
+          </View>
+          <View style={{marginTop: 15}}> 
+            <Text style={{fontSize: 14}}>Nota: puoi aggiungere una ricetta premendo il pulsante a forma di cuore in alto nella scheda dalla ricetta</Text>
+          </View>
+        </View>
       </View>
     );
   }
-
+  
   goToRecipe(recipeId) {
     this.props.navigator.push({
       data: {
@@ -113,7 +136,11 @@ class BaseList extends Component {
     );
   }
 }
-
+var colors = {
+  red: '#930c10',
+  bgred:'#c8201f',
+};
+ 
 var styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -144,11 +171,18 @@ var styles = StyleSheet.create({
     justifyContent: 'center',
     position: 'relative',
   },
+  icon: {
+    width: 30,
+    height: 30,
+    margin: 5,
+    resizeMode: 'contain',
+  },
   iconBrand: {
     position: 'absolute',
     top: 15,
     left: 15,
     backgroundColor: 'transparent',
+    resizeMode: 'contain',
   },
   imgWrap: {
     flex: 1,

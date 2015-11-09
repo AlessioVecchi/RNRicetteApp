@@ -21,16 +21,21 @@ var {
 
 var TabNavigation = require('./TabNavigation');
 var BrandTypes = require('../constants/BrandTypes');
+var BrandTypes = require('../constants/ActionTypes');
 var RecipeStore = require('../stores/RecipeStore');
+var FavoriteStore = require('../stores/FavoriteStore');
 var BasketStore = require('./../stores/BasketStore');
 
 class RecipeSingle extends Component {
   
   constructor(props) {
     super(props);
-    this.changeListener = null;
+
+    this.basketChangeListener = null;
+    this.favoritesChangeListener = null;
     this.state = {
       fadeAnim: new Animated.Value(0),
+      feedbackMessage: null,
       offset: new Animated.Value(-deviceHeight),
       recipe: { },
       dataSource: new ListView.DataSource({
@@ -53,17 +58,23 @@ class RecipeSingle extends Component {
   }
 
   componentWillUnmount() {
-    BasketStore.removeChangeListener(this.changeListener);
+    BasketStore.removeChangeListener(this.basketChangeListener);
+    FavoriteStore.removeChangeListener(this.favoritesChangeListener);
   }
 
   componentDidMount() {
-    this.changeListener = this.basketChanged.bind(this);
-    BasketStore.addChangeListener(this.changeListener);
+    //add listener to basket store
+    this.basketChangeListener = this.basketChanged.bind(this);
+    BasketStore.addChangeListener(this.basketChangeListener);
+    //add listener to favorites store
+    this.favoritesChangeListener = this.favoritesChanged.bind(this);
+    FavoriteStore.addChangeListener(this.favoritesChangeListener);
+    //fetch data
     this.fetchData();
   }
 
-  showMessage() {
-    console.log('showMessage');
+  showMessage(message) {
+    this.setState({ feedbackMessage: message });
     Animated.timing(this.state.offset,                
       {
         duration: 200,
@@ -76,8 +87,7 @@ class RecipeSingle extends Component {
     //       this.state.offeset,                 
     //       {
     //         duration: 1000,
-    //         toValue: 0,                        
-           
+    //         toValue: 0,                          
     //       }),
     //     Animated.timing(this.state.fadeAnim, {
     //       duration: 1000,
@@ -90,16 +100,24 @@ class RecipeSingle extends Component {
   }
 
   hideMessage() {
-    console.log('hideMessage');
     Animated.timing(this.state.offset, {
       duration: 1000,
       toValue: -deviceHeight,
     }).start();
   }
 
+  favoritesChanged(action) {
+    var message = null;
+    if(action) {
+      message = 'La Ricetta è stata aggiunta ai preferiti';
+    } else {
+      message = 'La Ricetta è stata rimossa dai preferiti'
+    }
+    this.showMessage.bind(this)(message);
+  }
+
   basketChanged() {
-    console.log('basket changed!');
-    this.showMessage.bind(this)();
+    this.showMessage.bind(this)('Gli ingredienti sono stati aggiunti alla lista');
   }
 
   fetchData() {
@@ -182,7 +200,6 @@ class RecipeSingle extends Component {
     }
 
     var iconBrand = '';
-    console.log(this.state.recipe.Product.Type);
     if(this.state.recipe.Product.Type === BrandTypes.MONDOSNELLO) {
       iconBrand = require('image!snello_ico');
     } else {
@@ -213,7 +230,7 @@ class RecipeSingle extends Component {
             { transform: [ { translateY: this.state.offset } ] }
             ]}>
           <View style={styles.messageContent}>
-            <Text style={{fontSize: 18, color:'white'}}>Gli ingredienti sono stati aggiunti alla lista</Text>
+            <Text style={{fontSize: 18, color:'white'}}>{this.state.feedbackMessage}</Text>
           </View>
         </Animated.View> 
 
@@ -349,6 +366,7 @@ var styles = StyleSheet.create({
     top: 15,
     left: 15,
     backgroundColor: 'transparent',
+    resizeMode: 'contain',
   },
 });
 module.exports = RecipeSingle;

@@ -38,13 +38,11 @@ var BasketStore = Object.assign({}, EventEmitter.prototype, {
 	},
 
 	add: async function(recipeId) {
-
-		console.log(recipeId);
-		
+		//console.log(recipeId);
 		var recipes = await DataService.getData(ResourceKeys.recipes);
 		var recipe = _.find(recipes, {ID: recipeId});
 		var ingredientsToInsert = recipe.IngredientItems;
-		console.log('BasketStore.add', ingredientsToInsert);
+		//console.log('BasketStore.add', ingredientsToInsert);
 		var ingredients = await BasketStore.getAll();
 		ingredientsToInsert.forEach((item, index)=> {
 			ingredients.push(item);
@@ -53,13 +51,13 @@ var BasketStore = Object.assign({}, EventEmitter.prototype, {
 	},
 
 	removeAll: async function() {
-		console.log('BasketStore.removeAll');
+		//console.log('BasketStore.removeAll');
 		var empty = [];
 		await BasketStore.saveAll(empty);
 	},
 
 	remove: async function(ingredientIndex) {
-		console.log('BasketStore.remove', ingredientIndex);
+		//console.log('BasketStore.remove', ingredientIndex);
 		var ingredients = await BasketStore.getAll();
 		ingredients.splice(ingredientIndex, 1);
 		await BasketStore.saveAll(ingredients);
@@ -67,7 +65,7 @@ var BasketStore = Object.assign({}, EventEmitter.prototype, {
 });
 
 Dispatcher.register(function(action) {
-	console.log(action.actionType);
+	//console.log(action.actionType);
 	switch(action.actionType) {
 		case ActionTypes.INGREDIENTS_ADD:
 			BasketStore.add(action.recipeId)

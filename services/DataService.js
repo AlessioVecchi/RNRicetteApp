@@ -27,9 +27,9 @@ class DataService {
 			var dateString = await response.json();
 			var date = new Date(dateString);
 			return date;
-			console.log('getLastUpdateData', date);
+			//console.log('getLastUpdateData', date);
 		} catch (err) { 
-			console.log("error in calling server: ", requestUrl, err);
+			//console.log("error in calling server: ", requestUrl, err);
 		}
 		return null;
 	}
@@ -57,14 +57,14 @@ class DataService {
 			}
 		} catch (err) {
 			//somethings goes wrong
-			console.log('checkForUpdate', err);		
+			//console.log('checkForUpdate', err);		
 		}
-		console.log('checkForUpdate', result);	
+		//console.log('checkForUpdate', result);	
 		return result;
 	}
 
 	async getData(resourceKey, forceReset) {
-		forceReset = true;
+		//forceReset = true;
 		//var lastUpdate = await this.getRemoteLastUpdateData(resourceKey);
 		//var updateAvailable = await this.checkForUpdate(resourceKey);
 
@@ -86,7 +86,7 @@ class DataService {
 		}
 
 		if (cachebleObj === null) { 
-			console.log('retrieve from server: ' + requestUrl);
+			//console.log('retrieve from server: ' + requestUrl);
 			var response = null;
 			try {
 				response = await fetch(requestUrl);
@@ -96,7 +96,7 @@ class DataService {
   				var cacheLastUpdateKey = this.getResourceLastUpdateKey(resourceKey);
   				//await AsyncStorage.setItem(cacheLastUpdateKey, JSON.stringify(updateAvailable.remote)); 
 			} catch (err) { 
-				console.log("getData: error in calling server: ", err);
+				//console.log("getData: error in calling server: ", err);
 				//error in call server -> restore the original value
 				if(value !== null) {
 					cachebleObj = JSON.parse(value);
@@ -104,7 +104,7 @@ class DataService {
 			}
   			await AsyncStorage.setItem(resourceKey, JSON.stringify(cachebleObj));
 		} else {
-			console.log('retrieve from disk:', resourceKey);
+			//console.log('retrieve from disk:', resourceKey);
 		}
 		return cachebleObj.data; 
 	}

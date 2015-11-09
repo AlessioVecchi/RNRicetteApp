@@ -46,8 +46,8 @@ var BasketListHorizScroll = React.createClass({
     this.loadBasket();
   },
   loadBasket: function() {
-    console.log('load basket');
-     BasketStore.getAll().then((ingredients) => { 
+    //console.log('load basket');
+    BasketStore.getAll().then((ingredients) => { 
       this.setState({
         values: ingredients,
         colors: ingredients.map(() => new Animated.Value(GREY)),

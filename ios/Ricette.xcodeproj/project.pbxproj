@@ -615,7 +615,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = it.extra.Ricette;
+				PRODUCT_BUNDLE_IDENTIFIER = it.extra.rovagnati.ricette;
 				PRODUCT_NAME = Ricette;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
@@ -636,7 +636,7 @@
 				IPHONEOS_DEPLOYMENT_TARGET = 7.0;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				OTHER_LDFLAGS = "-ObjC";
-				PRODUCT_BUNDLE_IDENTIFIER = it.extra.Ricette;
+				PRODUCT_BUNDLE_IDENTIFIER = it.extra.rovagnati.ricette;
 				PRODUCT_NAME = Ricette;
 				TARGETED_DEVICE_FAMILY = 1;
 			};

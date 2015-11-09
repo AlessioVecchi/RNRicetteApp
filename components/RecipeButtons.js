@@ -60,14 +60,16 @@ class RecipeButtons extends React.Component {
           underlayColor="transparent">
           <Image source={ icon } style={styles.icon}></Image>
         </TouchableHighlight>
-        <TouchableHighlight 
-          underlayColor="transparent">
-          <Image source={ require('image!ico_sharing') } style={styles.icon}></Image>
-        </TouchableHighlight>
       </View>
     );
   }
 }
+
+//Share Button
+//<TouchableHighlight 
+//  underlayColor="transparent">
+//  <Image source={ require('image!ico_sharing') } style={styles.icon}></Image>
+//</TouchableHighlight>
 
 var styles = StyleSheet.create({
   container: {
