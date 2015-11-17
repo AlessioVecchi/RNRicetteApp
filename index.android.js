@@ -10,19 +10,31 @@ var {
   TouchableHighlight,
   Text,
   Image,
-  Animated
+  Animated, 
+  Dimensions,
 } = React;
 
+var {
+  height: deviceHeight,
+  width: deviceWidth,
+} = Dimensions.get('window');
+
+var RecipeStore = require('./stores/RecipeStore');
 var RecipesList = require('./components/RecipesList');
 var FavoritesList = require('./components/FavoritesList');
 var RecipeNavigationBar = require('./components/RecipeNavigationBar');
 var NavigationBarRouteMapper = require('./components/NavigationBarRouteMapper');
 var SideMenu = require('./components/SideMenu');
+var _ = require('lodash');
+
+var SPLASH_TIMEOUT = 1500;
 
 class Ricette extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showSplash: true, 
+      loaded: false,
       showMenu: false,
       translateValue: new Animated.Value(0), //init value
       scaleValue: new Animated.Value(1)      //init value
@@ -67,16 +79,51 @@ class Ricette extends Component {
     }
   }
 
-  //not used function
-  navigate(navigator, section) {
-    //navigate={this.navigate.bind(this)}
-    //console.log('navigate',navigator, section);
-    //console.log(navigator, section);
-    this.toggleMenu();
-    navigator.push({ title: 'Lista della spesa', component: FavoritesList, data: {} });
+
+  renderLoadingView() {
+
+    setTimeout(function() {
+      console.log(this.state.showSplash);
+      this.setState( {showSplash: false });
+    }.bind(this), SPLASH_TIMEOUT);
+
+    // var items = [ 
+    //   RecipeStore.getAll, 
+    //   RecipeStore.getProducts, 
+    //   RecipeStore.getRecipeTypes, 
+    //   RecipeStore.getCategories, 
+    //   RecipeStore.getFavorites
+    // ];
+
+    // _.forEach(items, function(item, index) {
+    //   item();
+    // });
+
+    // RecipeStore.getAll()
+    // .then(RecipeStore.getProducts)
+    // .then(RecipeStore.getRecipeTypes)
+    // .then(RecipeStore.getCategories)
+    // .then(RecipeStore.getFavorites)
+    // .then(function() { this.setState( {showSplash: false }); });
+  
+    //load recipes (eager load, not lazy load)
+    RecipeStore
+      .getAll()
+      .then(() => { this.setState( { loaded: true } );  });
+
+    return (
+      <View style={[styles.container, { alignItems: 'center' }]}>
+        <Image source={ require('image!splash') } style={{ width: deviceWidth, height: deviceHeight }}></Image> 
+      </View>
+    );
   }
 
   render() {
+
+    if(this.state.showSplash) {
+      return this.renderLoadingView();
+    }
+
     return (
       <Navigator 
         initialRoute= {{title: 'ROVAGNATI - Ricette Firmate', section: 'home', component: RecipesList }}

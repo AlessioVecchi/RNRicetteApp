@@ -13,16 +13,21 @@ var {
   Animated
 } = React;
 
+var RecipeStore = require('./stores/RecipeStore');
 var RecipesList = require('./components/RecipesList');
 var FavoritesList = require('./components/FavoritesList');
 var RecipeNavigationBar = require('./components/RecipeNavigationBar');
 var NavigationBarRouteMapper = require('./components/NavigationBarRouteMapper');
 var SideMenu = require('./components/SideMenu');
 
+var SPLASH_TIMEOUT = 1500;
+
 class Ricette extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      showSplash: true, 
+      loaded: false,
       showMenu: false,
       translateValue: new Animated.Value(0), //init value
       scaleValue: new Animated.Value(1)      //init value
@@ -67,16 +72,40 @@ class Ricette extends Component {
     }
   }
 
-  //not used function
-  navigate(navigator, section) {
-    //navigate={this.navigate.bind(this)}
-    //console.log('navigate',navigator, section);
-    //console.log(navigator, section);
-    this.toggleMenu();
-    navigator.push({ title: 'Lista della spesa', component: FavoritesList, data: {} });
+  renderSplashView() {
+
+    setTimeout(function() {
+      console.log(this.state.showSplash);
+      this.setState( {showSplash: false });
+    }.bind(this), 1000);
+
+
+    //load recipes (eager load, not lazy load)
+    RecipeStore
+      .getAll()
+      .then(() => { this.setState( { loaded: true } );  });
+
+    return (
+      <View style={[styles.container, { alignItems: 'center' }]}>
+        <Image source={ require('image!splash') } style={{ flex:1, resizeMode: 'contain' }}></Image> 
+      </View>
+    );
+  }
+
+  renderLoadingView() {
+    return (
+      <View style={styles.container}>
+        <Text>Loading ...</Text>
+      </View>
+    );
   }
 
   render() {
+
+    if(this.state.showSplash) {
+      return this.renderSplashView();
+    }
+
     return (
       <Navigator 
         initialRoute= {{title: 'ROVAGNATI - Ricette Firmate', section: 'home', component: RecipesList }}

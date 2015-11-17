@@ -91,8 +91,8 @@ class BasketList extends Component {
               <Text style={styles.ingredientQty}>{ingredient.Quantity} </Text>
               {ingredient.Element}
             </Text>
-            <TouchableHighlight style={styles.ingredientActions} onPress={this.remove.bind(this, index)}>
-              <Text style={{fontSize:55, color: '#c0c0c0', fontWeight: '100'}}>&times;</Text>
+            <TouchableHighlight underlayColor={colors.gray} style={[ styles.ingredientActions, { padding:5, borderRadius: 10 } ]} onPress={this.remove.bind(this, index)}>
+              <Text style={{fontSize:55, color: '#c0c0c0', alignSelf: 'center', fontWeight: '100'}}>&times;</Text>
             </TouchableHighlight>
         </View>
     );
@@ -147,7 +147,7 @@ class BasketList extends Component {
         </View>);
     return (
       <View style={[{ flex: 1 }, this.props.baseStyles.baseContainer]}>
-          <TouchableHighlight style={{padding: 5, marginTop: 25}} onPress={this.confirmRemoveAll.bind(this)}>
+          <TouchableHighlight underlayColor={colors.gray} style={{padding: 5, marginLeft:20, marginRight:20, marginTop: 25, borderRadius:10}} onPress={this.confirmRemoveAll.bind(this)}>
             <Text style={styles.cleanButton}>svuota lista</Text>
           </TouchableHighlight>
         <ScrollView>  
@@ -212,7 +212,7 @@ var styles = StyleSheet.create({
   },
   cleanButton: {
     alignSelf: 'center',
-    fontSize:25
+    fontSize:25, 
   },
   title: {
     fontSize:25,

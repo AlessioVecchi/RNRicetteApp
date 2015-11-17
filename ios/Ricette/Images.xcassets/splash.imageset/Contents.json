@@ -2,12 +2,11 @@
   "images" : [
     {
       "idiom" : "universal",
-      "filename" : "rovagnati_ico.png",
+      "filename" : "splash.png",
       "scale" : "1x"
     },
     {
       "idiom" : "universal",
-      "filename" : "rovagnati_ico@2x.png",
       "scale" : "2x"
     },
     {

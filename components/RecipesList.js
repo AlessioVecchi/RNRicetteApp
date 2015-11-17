@@ -34,7 +34,8 @@ class RecipesList extends Component {
       <BaseList
         recipesSource={this.state.dataSource}
         navigator={this.props.navigator} 
-        baseStyles={this.props.baseStyles} />
+        baseStyles={this.props.baseStyles} 
+        listType='recipe-list' />
     );
   }
 

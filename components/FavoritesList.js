@@ -5,8 +5,6 @@ var {
   Component,
 } = React;
 
-//var ResourceKeys = require('../constants/ResourceKeys');
-//var DataService = require('../services/DataService');
 var RecipeSingle = require('./RecipeSingle');
 var BaseList = require('./BaseList');
 var FavoriteStore = require('./../stores/FavoriteStore');
@@ -39,18 +37,6 @@ class FavoritesList extends Component {
       .then((recipes) => { 
         this.setState({ dataSource: recipes });
       });
-
-    // DataService.getData(ResourceKeys.recipes).then((responseData) => {
-    //   FavoriteStore.getAll().then((favorites) => {
-    //     var favoritesRecipes = [];
-    //     favorites.forEach((item, index) => {    
-    //       favoritesRecipes.push(find(responseData, { ID: item.id }));
-    //     });
-    //     this.setState({
-    //       dataSource: favoritesRecipes,
-    //     });
-    //   });
-    // });
   }
 
   render() {
@@ -58,7 +44,8 @@ class FavoritesList extends Component {
     return (
       <BaseList
         recipesSource={this.state.dataSource}
-        navigator={this.props.navigator} />
+        navigator={this.props.navigator} 
+        listType='favorites-list'/>
     );
   }
 

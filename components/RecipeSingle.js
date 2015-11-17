@@ -21,10 +21,9 @@ var {
 
 var TabNavigation = require('./TabNavigation');
 var BrandTypes = require('../constants/BrandTypes');
-var BrandTypes = require('../constants/ActionTypes');
 var RecipeStore = require('../stores/RecipeStore');
 var FavoriteStore = require('../stores/FavoriteStore');
-var BasketStore = require('./../stores/BasketStore');
+var BasketStore = require('../stores/BasketStore');
 
 class RecipeSingle extends Component {
   
@@ -81,22 +80,6 @@ class RecipeSingle extends Component {
         toValue: 0,                        
       }
     ).start( () => setTimeout(this.hideMessage.bind(this), 1500));
-    
-    // Animated.parallel([
-    //     Animated.timing(                          
-    //       this.state.offeset,                 
-    //       {
-    //         duration: 1000,
-    //         toValue: 0,                          
-    //       }),
-    //     Animated.timing(this.state.fadeAnim, {
-    //       duration: 1000,
-    //       toValue: 1
-    //     })
-    // ]).start( () => {
-    //        setTimeout(this.hideMessage.bind(this), 1500);
-    // });
-
   }
 
   hideMessage() {
@@ -153,8 +136,10 @@ class RecipeSingle extends Component {
     return (
        <View key={step.Index+1} style={styles.stepContainer}>
         <View style={styles.step}>
+          <View style={styles.stepIndexContainer}>
           <View style={styles.stepIndex}>
             <Text style={styles.stepIndexText}>{step.Index+1}</Text>
+          </View>
           </View>
           <Text style={styles.stepText}>{step.Text}</Text>  
         </View>
@@ -200,6 +185,7 @@ class RecipeSingle extends Component {
     }
 
     var iconBrand = '';
+    console.log('BrandTypes: ',this.state.recipe.Product.Type, BrandTypes.MONDOSNELLO);
     if(this.state.recipe.Product.Type === BrandTypes.MONDOSNELLO) {
       iconBrand = require('image!snello_ico');
     } else {
@@ -230,7 +216,7 @@ class RecipeSingle extends Component {
             { transform: [ { translateY: this.state.offset } ] }
             ]}>
           <View style={styles.messageContent}>
-            <Text style={{fontSize: 18, color:'white'}}>{this.state.feedbackMessage}</Text>
+            <Text style={{fontSize: 18, color:'white', textAlign: 'center'}}>{this.state.feedbackMessage}</Text>
           </View>
         </Animated.View> 
 
@@ -314,12 +300,19 @@ var styles = StyleSheet.create({
     opacity: 1,
   },
   stepContainer: {
-
+    //borderWidth:1,
+    //borderColor: 'black',
   },
   step: {
-    padding: 20,
+    //padding: 5,
+    marginTop:10,
     flex: 1,
     flexDirection: 'row',
+    alignItems:'flex-start',
+    justifyContent: 'space-around',
+  },
+  stepIndexContainer: {
+    flex:1,
   },
   stepIndex: {
     borderColor: colors.red,
@@ -327,22 +320,27 @@ var styles = StyleSheet.create({
     borderWidth: 1,
     height: 30,
     width: 30,
+    alignSelf: 'center',
     justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 0,
+    //alignItems: 'center',
   },
   stepIndexText: {
-    // backgroundColor: colors.red,
+    //backgroundColor: colors.red,
     color: colors.red,
     height: 15,
     lineHeight: 15,
     alignSelf: 'center',
   },
   stepText: {
+    flex: 7,
+    //backgroundColor: colors.red,
     paddingLeft: 10,
     flexWrap: 'wrap',
-    flex: 1, 
     fontSize: 16,
+    marginRight: 5,
+    marginLeft: 5,
+    //borderWidth:1,
+    //borderColor: 'green',
   },
   stepImage: {
     flex:1,
@@ -365,6 +363,8 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     left: 15,
+    width: 75,
+    height: 75,
     backgroundColor: 'transparent',
     resizeMode: 'contain',
   },

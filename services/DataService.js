@@ -1,7 +1,7 @@
 'use strict';
 
 var React = require('react-native');
-var CACHE_DURATION =  60 * 60 * 1000; // millisenconds 
+var CACHE_DURATION =  60 * 60 * 1000; // millisenconds -> 1 hours
 var REQUEST_URL = 'http://mondosnello.staging.extra.it/api/';
 var LAST_UPDATE = 'last-update';
 

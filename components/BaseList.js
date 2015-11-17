@@ -10,6 +10,7 @@ var {
   TouchableHighlight,
   View,
   Component,
+  Image,
 } = React;
 
 var RecipeSingle = require('./RecipeSingle');
@@ -27,7 +28,6 @@ class BaseList extends Component {
       loaded: false,
       empty: false
     }
-
   }
   
   componentWillReceiveProps(nextProps) {
@@ -44,7 +44,7 @@ class BaseList extends Component {
       return this.renderLoadingView();
     }
 
-    if(this.state.empty) {
+    if(this.state.empty && this.props.listType != 'recipe-list') {
       return this.renderEmptyList();
     } 
 
@@ -60,11 +60,20 @@ class BaseList extends Component {
 
   renderLoadingView() {
     return (
-      <View style={styles.container}>
-        <Text>Loading ...</Text>
+      <View style={[styles.container, { alignItems: 'center', justifyContent: 'center' }]}>
+        <View style={{alignItems: 'center', 
+          justifyContent: 'center', 
+          width:200, 
+          height:200, 
+          borderRadius:100, 
+          backgroundColor:colors.bgred }}>
+          <Text style={{fontSize:25, color: 'white'}}>Loading ...</Text>
+        </View>
       </View>
     );
   }
+
+     //<Image source={ require('image!logo') } style={{ flex:1, resizeMode: 'contain' }}></Image> 
 
   renderEmptyList() {
      return (
@@ -181,6 +190,8 @@ var styles = StyleSheet.create({
     position: 'absolute',
     top: 15,
     left: 15,
+    width: 75,
+    height: 75,
     backgroundColor: 'transparent',
     resizeMode: 'contain',
   },

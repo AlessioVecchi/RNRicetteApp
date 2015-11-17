@@ -25,6 +25,7 @@ var RecipeStore = Object.assign({}, EventEmitter.prototype, {
 	},
 
 	getAll: async function() {
+		console.log('getAll');
 		var recipes = await DataService.getData(ResourceKeys.recipes);
 		return recipes;
 	},
@@ -65,6 +66,7 @@ var RecipeStore = Object.assign({}, EventEmitter.prototype, {
 	},
 
 	getFavorites: async function() {
+		console.log('getFavorites');
 		var recipes = await RecipeStore.getAll();
 		var favorites = await FavoriteStore.getAll();
 		var favRecipes = [];
@@ -75,16 +77,19 @@ var RecipeStore = Object.assign({}, EventEmitter.prototype, {
 	},
 
 	getRecipeTypes: async function() {
+		console.log('getRecipeTypes');
 		var recipeTypes = await DataService.getData(ResourceKeys.recipestypes);
 		return recipeTypes;
 	},
 
 	getProducts: async function() {
+		console.log('getProducts');
 		var products = await DataService.getData(ResourceKeys.products);
 		return products;
 	},
 
 	getCategories: async function() {
+		console.log('getCategories');
 		var categories = await DataService.getData(ResourceKeys.categories);
 		return categories;
 	},
